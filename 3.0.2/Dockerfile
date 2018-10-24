@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:cosmic
 LABEL author="artur@barichello.me"
 
 # Usage example:
