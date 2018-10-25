@@ -1,7 +1,7 @@
 image: barichello/godot-ci:3.0.2
 
 variables:
-  EXPORT_NAME: gamine-v1,0,1
+  EXPORT_NAME: gamine-$CI_COMMIT_TAG
 
 stages:
   - export
