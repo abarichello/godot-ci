@@ -1,0 +1,78 @@
+image: barichello/godot-ci:3.0.2
+
+variables:
+  EXPORT_NAME: gamine-v1,0,1
+
+stages:
+  - export
+  - deploy
+
+before_script:
+  - cd game
+  - mkdir -v -p build/linux
+  - mkdir -v -p build/windows
+  - mkdir -v -p build/mac
+  - mkdir -v -p build/web
+
+linux:
+  stage: export
+  script:
+    - godot -v --export "Linux/X11" ./build/linux/$EXPORT_NAME.x64
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - game/build/linux
+  only:
+    - tags
+
+windows:
+  stage: export
+  script:
+    - godot -v --export "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - game/build/windows
+  only:
+    - tags
+
+mac:
+  stage: export
+  script:
+    - godot -v --export "Mac OSX" ./build/mac/$EXPORT_NAME.zip
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - game/build/mac
+  only:
+    - tags
+
+web:
+  stage: export
+  script:
+    - godot -v --export "HTML5" ./build/web/index.html
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - game/build/web
+  only:
+    - tags
+
+# Use project root to deploy for the gh-pages branch
+deploy-github-pages:
+  stage: deploy
+  dependencies:
+    - web
+  script:
+    - cd ../
+    - mv game/build/web/** .
+    - rm README.md
+    - git config user.email artur@barichello.me
+    - git config user.name abarichello
+    - git remote add github $REMOTE_URL
+    - git checkout gh-pages
+    - git add -A
+    - 'git commit -m "Auto: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
+    - git push github gh-pages -f
+  only:
+    - tags
