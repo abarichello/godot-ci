@@ -12,5 +12,5 @@ After adapting the paths and names according to your project needs you will need
 |-|-|-|
 |$REMOTE_URL | The `git remote` where the web export will be hosted (in this case GitHub), it should contain your [deploy/personal access token](https://github.com/settings/tokens)|`https://<github username>:<deploy token>@github.com/<username>/<repository>.git`
 
-Others variables are set automatically by the `gitlab-runner`
+Others variables are set automatically by the `gitlab-runner`<br>
 The included `gitlab-ci.yml` is set to only run the export jobs when you commit a new `git tag`, i suggest not using "." or "," in your tag's name since it messes with Godot's export system and will lead to failed jobs.

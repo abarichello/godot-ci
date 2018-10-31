@@ -65,12 +65,11 @@ deploy-github-pages:
     - web
   script:
     - cd ../
+    - git checkout gh-pages
     - mv game/build/web/** .
-    - rm README.md
     - git config user.email artur@barichello.me
     - git config user.name abarichello
     - git remote add github $REMOTE_URL
-    - git checkout gh-pages
     - git add -A
     - 'git commit -m "Auto: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
     - git push github gh-pages -f
