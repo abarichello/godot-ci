@@ -17,4 +17,3 @@ The included `gitlab-ci.yml` is set to only run the export jobs when you commit 
 
 Check other usage examples in these following projects:<br>
 - [`aBARICHELLO/GAMINE`](https://github.com/aBARICHELLO/gamine)<br>
-- [`aBARICHELLO/game-off`](https://github.com/aBARICHELLO/game-off)
