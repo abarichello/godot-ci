@@ -1,9 +1,6 @@
 FROM ubuntu:cosmic
 LABEL author="artur@barichello.me"
 
-# Usage example:
-# godot --export "Mac OSX" /target/build.zip --path /path/to/project --build-solutions -quit -v
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \

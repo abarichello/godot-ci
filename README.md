@@ -6,7 +6,9 @@ https://hub.docker.com/r/barichello/godot-ci/
 
 ## Usage example
 A `.gitlab-ci.yml` is included in this project as a usage example.<br>
-After adapting the paths and names according to your project needs you will need the following **Variable** set in GitLab for this image to work:
+After adapting the paths and names according to your project needs you will need the following **Variables** set in GitLab for this image to work:
+
+*Access  `https://gitlab.com/<username>/<repo-name>/settings/ci_cd` to edit:*
 
 |Variable|Description|Example|
 |-|-|-|
