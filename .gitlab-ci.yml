@@ -1,7 +1,7 @@
 image: barichello/godot-ci:3.0.2
 
 variables:
-  EXPORT_NAME: gamine-$CI_COMMIT_TAG
+  EXPORT_NAME: gamine
 
 stages:
   - export
@@ -17,7 +17,7 @@ before_script:
 linux:
   stage: export
   script:
-    - godot -v --export "Linux/X11" ./build/linux/$EXPORT_NAME.x64
+    - godot -v --export "Linux/X11" ./build/linux/$EXPORT_NAME.x86_64
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
