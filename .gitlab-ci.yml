@@ -1,14 +1,15 @@
-image: barichello/godot-ci:3.0.2
+image: barichello/godot-ci:3.1
 
 variables:
-  EXPORT_NAME: gamine
+  EXPORT_NAME: gameoff
+  GIT_EMAIL: artur@barichello.me
+  GIT_USERNAME: abarichello
 
 stages:
   - export
   - deploy
 
 before_script:
-  - cd game
   - mkdir -v -p build/linux
   - mkdir -v -p build/windows
   - mkdir -v -p build/mac
@@ -21,9 +22,7 @@ linux:
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - game/build/linux
-  only:
-    - tags
+      - build/linux
 
 windows:
   stage: export
@@ -32,9 +31,7 @@ windows:
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - game/build/windows
-  only:
-    - tags
+      - build/windows
 
 mac:
   stage: export
@@ -43,9 +40,7 @@ mac:
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - game/build/mac
-  only:
-    - tags
+      - build/mac
 
 web:
   stage: export
@@ -54,9 +49,7 @@ web:
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - game/build/web
-  only:
-    - tags
+      - build/web
 
 # Use project root to deploy for the gh-pages branch
 deploy-github-pages:
@@ -64,14 +57,12 @@ deploy-github-pages:
   dependencies:
     - web
   script:
-    - cd ../
     - git checkout gh-pages
-    - mv game/build/web/** .
-    - git config user.email artur@barichello.me
-    - git config user.name abarichello
+    - rm -f *.md
+    - mv build/web/** .
+    - git config user.email $GIT_EMAIL
+    - git config user.name $GIT_USERNAME
     - git remote add github $REMOTE_URL
     - git add -A
-    - 'git commit -m "Auto: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
+    - 'git commit -m "ci: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
     - git push github gh-pages -f
-  only:
-    - tags
