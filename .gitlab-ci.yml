@@ -1,8 +1,5 @@
 image: barichello/godot-ci:3.1.1
 
-variables:
-  EXPORT_NAME: gameoff
-
 stages:
   - export
   - deploy
