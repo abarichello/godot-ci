@@ -1,8 +1,11 @@
-image: barichello/godot-ci:3.1.1
+image: barichello/godot-ci:3.1.2
 
 stages:
   - export
   - deploy
+
+variables:
+  EXPORT_NAME: game-off
 
 before_script:
   - mkdir -v -p build/linux
@@ -46,7 +49,7 @@ web:
     paths:
       - build/web
 
-# Use project root to deploy for the gh-pages branch
+# GitHub Pages Deploy
 deploy-github-pages:
   stage: deploy
   dependencies:
@@ -61,3 +64,16 @@ deploy-github-pages:
     - git add -A
     - 'git commit -m "ci: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
     - git push github gh-pages -f
+
+# GitLab Pages Deploy
+pages:
+  stage: deploy
+  dependencies:
+    - web
+  script:
+    - git checkout pages
+    - rm -f *.md
+    - mv build/web/** ./public
+  artifacts:
+    paths:
+      - public
