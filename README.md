@@ -31,5 +31,6 @@ Delete the `pages` job and set the following **Variables** in the GitLab CI/CD p
 | $REMOTE_URL | The `git remote` where the web export will be hosted (in this case GitHub), it should contain your [deploy/personal access token](https://github.com/settings/tokens)|`https://<github username>:<deploy token>@github.com/<username>/<repository>.git`
 | $GIT_EMAIL | Git email of the account that will commit to the `gh-pages` branch. | `artur@barichello.me`
 | $GIT_USERNAME | Username of the account that will commit to the `gh-pages` branch. | `abarichello`
+| $BUTLER_API_KEY | [Itch.io authentification key](https://itch.io/user/settings/api-keys). | `gH89Cd15UHqWBpyU8Ri42Q`
 
 Others variables are set automatically by the `gitlab-runner`, see the documentation for [predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).<br>

@@ -6,6 +6,8 @@ stages:
 
 variables:
   EXPORT_NAME: game-off
+  ITCHIO_USERNAME: user
+  ITCHIO_GAME: game
 
 before_script:
   - mkdir -v -p build/linux
@@ -77,3 +79,25 @@ pages:
   artifacts:
     paths:
       - public
+
+# Itch.io Deploy
+itchio:linux:
+  stage: deploy
+  script:
+    - butler push $EXPORT_NAME $ITCHIO_USERNAME/$ITCHIO_GAME:linux64
+  dependencies:
+    - linux
+
+itchio:windows:
+  stage: deploy
+  script:
+    - butler push $EXPORT_NAME.exe $ITCHIO_USERNAME/$ITCHIO_GAME:windows
+  dependencies:
+    - windows
+
+itchio:macosx:
+  stage: deploy
+  script:
+    - butler push $EXPORT_NAME.zip $ITCHIO_USERNAME/$ITCHIO_GAME:mac64
+  dependencies:
+    - mac
