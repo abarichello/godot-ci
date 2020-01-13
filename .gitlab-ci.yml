@@ -84,20 +84,20 @@ pages:
 itchio:linux:
   stage: deploy
   script:
-    - butler push $EXPORT_NAME $ITCHIO_USERNAME/$ITCHIO_GAME:linux64
+    - butler push ./build/linux $ITCHIO_USERNAME/$ITCHIO_GAME:linux
   dependencies:
     - linux
 
 itchio:windows:
   stage: deploy
   script:
-    - butler push $EXPORT_NAME.exe $ITCHIO_USERNAME/$ITCHIO_GAME:windows
+    - butler push ./build/windows $ITCHIO_USERNAME/$ITCHIO_GAME:windows
   dependencies:
     - windows
 
 itchio:macosx:
   stage: deploy
   script:
-    - butler push $EXPORT_NAME.zip $ITCHIO_USERNAME/$ITCHIO_GAME:mac64
+    - butler push ./build/mac $ITCHIO_USERNAME/$ITCHIO_GAME:mac
   dependencies:
     - mac
