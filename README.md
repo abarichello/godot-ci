@@ -41,6 +41,7 @@ Deployment to Itch.io is done via [Butler](https://itch.io/docs/butler/).
 You will need to set 2 variables in your `.gitlab-ci.yml` file and one in the Gitlab CI/CD settings panel for it to work.
 
 In the `.gitlab-ci.yml`, edit:
+
 |Variable|Description|Example|
 |-|-|-|
 | $ITCHIO_USERNAME | Your username on Itch.io, as in your personal page will be at https://<username>.itch.io |`username`
