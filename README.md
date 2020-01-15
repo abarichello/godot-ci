@@ -31,6 +31,24 @@ Delete the `pages` job and set the following **Variables** in the GitLab CI/CD p
 | $REMOTE_URL | The `git remote` where the web export will be hosted (in this case GitHub), it should contain your [deploy/personal access token](https://github.com/settings/tokens)|`https://<github username>:<deploy token>@github.com/<username>/<repository>.git`
 | $GIT_EMAIL | Git email of the account that will commit to the `gh-pages` branch. | `artur@barichello.me`
 | $GIT_USERNAME | Username of the account that will commit to the `gh-pages` branch. | `abarichello`
-| $BUTLER_API_KEY | [Itch.io authentification key](https://itch.io/user/settings/api-keys). | `gH89Cd15UHqWBpyU8Ri42Q`
+
 
 Others variables are set automatically by the `gitlab-runner`, see the documentation for [predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).<br>
+
+### Itch.io
+
+Deployment to Itch.io is done via [Butler](https://itch.io/docs/butler/).  
+You will need to set 2 variables in your `.gitlab-ci.yml` file and one in the Gitlab CI/CD settings panel for it to work.
+
+In the `.gitlab-ci.yml`, edit:
+|Variable|Description|Example|
+|-|-|-|
+| $ITCHIO_USERNAME | Your username on Itch.io, as in your personal page will be at https://<username>.itch.io |`username`
+| $ITCHIO_GAME | the name of your game on Itchio, as in your game will be available at https://<username>.itch.io/<game>  |`game`
+
+You also need to set your API key in the CI/CD settings of Gitlab.
+Get first an API key from https://itch.io/user/settings/api-keys
+
+|Variable|Description|Example|
+|-|-|-|
+| $BUTLER_API_KEY | Necessary so that Gitlab-ci can authenticate in Itch.io on your behalf. Make that API key `Masked` to keep it secret |`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
