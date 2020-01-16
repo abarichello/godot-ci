@@ -38,18 +38,10 @@ Others variables are set automatically by the `gitlab-runner`, see the documenta
 ### Itch.io
 
 Deployment to Itch.io is done via [Butler](https://itch.io/docs/butler/).  
-You will need to set 2 variables in your `.gitlab-ci.yml` file and one in the Gitlab CI/CD settings panel for it to work.
-
-In the `.gitlab-ci.yml`, edit:
+You will need to set variables in the Gitlab CI/CD settings panel for it to work.
 
 |Variable|Description|Example|
 |-|-|-|
-| $ITCHIO_USERNAME | Your username on Itch.io, as in your personal page will be at https://<username>.itch.io |`username`
-| $ITCHIO_GAME | the name of your game on Itchio, as in your game will be available at https://<username>.itch.io/<game>  |`game`
-
-You also need to set your API key in the CI/CD settings of Gitlab.
-Get first an API key from https://itch.io/user/settings/api-keys
-
-|Variable|Description|Example|
-|-|-|-|
-| $BUTLER_API_KEY | Necessary so that Gitlab-ci can authenticate in Itch.io on your behalf. Make that API key `Masked` to keep it secret |`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
+| $ITCHIO_USERNAME | Your username on Itch.io, as in your personal page will be at `https://<username>.itch.io` |`username`
+| $ITCHIO_GAME | the name of your game on Itchio, as in your game will be available at `https://<username>.itch.io/<game>`  |`game`
+| $BUTLER_API_KEY | An [Itch.io API key](https://itch.io/user/settings/api-keys) is necessary for Butler so that Gitlab-ci can authenticate on Itch.io on your behalf. **Make that API key `Masked` to keep it secret** |`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
