@@ -6,8 +6,6 @@ stages:
 
 variables:
   EXPORT_NAME: game-off
-  ITCHIO_USERNAME: user
-  ITCHIO_GAME: game
 
 before_script:
   - mkdir -v -p build/linux
