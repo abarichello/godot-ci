@@ -62,7 +62,7 @@ deploy-github-pages:
     - git config user.name $GIT_USERNAME
     - git remote add github $REMOTE_URL
     - git add -A
-    - 'git commit -m "ci: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID"'
+    - 'git commit -m "ci: Deploy GitHub Page $EXPORT_NAME-$CI_JOB_NAME$" -m "Deploy from GitLab pipeline \#$CI_PIPELINE_ID" || true'
     - git push github gh-pages -f
 
 # GitLab Pages Deploy
