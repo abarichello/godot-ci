@@ -1,4 +1,4 @@
-image: barichello/godot-ci:3.1.2
+image: barichello/godot-ci:3.2.1
 
 stages:
   - export
