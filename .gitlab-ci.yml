@@ -55,6 +55,8 @@ deploy-github-pages:
   dependencies:
     - web
   script:
+    # This ensures the `gh-pages` branch is available.
+    - git fetch
     - git checkout gh-pages
     - rm -f *.md
     - mv build/web/** .
@@ -71,6 +73,8 @@ pages:
   dependencies:
     - web
   script:
+    # This ensures the `pages` branch is available.
+    - git fetch
     - git checkout pages
     - rm -f *.md
     - mv build/web/** ./public
