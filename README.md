@@ -8,13 +8,16 @@ https://hub.docker.com/r/barichello/godot-ci/
 
 ## How To Use
 
-A `.gitlab-ci.yml` is included in this project as reference, for live projects using this image check the list below:<br>
+A `.gitlab-ci.yml` is included in this project as reference, for live projects, examples and tutorials using this template check the list below:<br>
 
+- [Video tutorial by Kyle Luce](https://www.youtube.com/watch?v=wbc1qut0vT4)
 - Repository examples: [GitHub](https://github.com/aBARICHELLO/game-off) | [GitLab](https://gitlab.com/BARICHELLO/game-off)
 - Deployed game examples: [GitHub Pages](http://barichello.me/game-off/) | [GitLab Pages](https://barichello.gitlab.io/game-off/) | [Itch.io](https://barichello.itch.io/game-off)
 - [Pipelines running](https://gitlab.com/BARICHELLO/game-off/pipelines)
 
 You can choose either [GitLab Pages](https://gitlab.com/help/user/project/pages/index.md) or [GitHub Pages](https://pages.github.com/) to deploy web exports.
+
+## Platforms
 
 ### GitLab Pages
 
