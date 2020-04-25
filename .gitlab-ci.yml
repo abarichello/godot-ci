@@ -4,8 +4,8 @@ image: barichello/godot-ci:3.2.1
 cache:
   key: import-assets
   paths:
-  - .import/
-  
+    - .import/
+
 stages:
   - export
   - deploy
@@ -61,7 +61,7 @@ deploy-github-pages:
   dependencies:
     - web
   script:
-    # This ensures the `gh-pages` branch is available.
+    # This ensures the `gh-pages` branch is available.
     - git fetch
     - git checkout gh-pages
     - rm -f *.md
@@ -79,7 +79,7 @@ pages:
   dependencies:
     - web
   script:
-    # This ensures the `pages` branch is available.
+    # This ensures the `pages` branch is available.
     - git fetch
     - git checkout pages
     - rm -f *.md
