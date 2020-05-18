@@ -11,18 +11,14 @@ stages:
   - deploy
 
 variables:
-  EXPORT_NAME: game-off
-
-before_script:
-  - mkdir -v -p build/linux
-  - mkdir -v -p build/windows
-  - mkdir -v -p build/mac
-  - mkdir -v -p build/web
+  EXPORT_NAME: test-project
 
 linux:
   stage: export
   script:
-    - godot -v --export "Linux/X11" ./build/linux/$EXPORT_NAME.x86_64
+    - mkdir -v -p build/linux
+    - cd $EXPORT_NAME
+    - godot -v --export "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -31,7 +27,9 @@ linux:
 windows:
   stage: export
   script:
-    - godot -v --export "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
+    - mkdir -v -p build/windows
+    - cd $EXPORT_NAME
+    - godot -v --export "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -40,7 +38,9 @@ windows:
 mac:
   stage: export
   script:
-    - godot -v --export "Mac OSX" ./build/mac/$EXPORT_NAME.zip
+    - mkdir -v -p build/mac
+    - cd $EXPORT_NAME
+    - godot -v --export "Mac OSX" ../build/mac/$EXPORT_NAME.zip
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -49,7 +49,9 @@ mac:
 web:
   stage: export
   script:
-    - godot -v --export "HTML5" ./build/web/index.html
+    - mkdir -v -p build/web
+    - cd $EXPORT_NAME
+    - godot -v --export "HTML5" ../build/web/index.html
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
