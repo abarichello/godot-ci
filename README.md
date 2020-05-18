@@ -12,19 +12,17 @@ https://hub.docker.com/r/barichello/godot-ci/
 <br>For live projects, examples and tutorials using this template check the list below:<br>
 
 - [Video tutorial by Kyle Luce](https://www.youtube.com/watch?v=wbc1qut0vT4)
-- Repository examples: [GitHub](https://github.com/aBARICHELLO/game-off) | [GitLab](https://gitlab.com/BARICHELLO/game-off)
-- Deployed game examples: [GitHub Pages](http://barichello.me/game-off/) | [GitLab Pages](https://barichello.gitlab.io/game-off/) | [Itch.io](https://barichello.itch.io/game-off)
-- [GitLab CI Pipelines running](https://gitlab.com/BARICHELLO/game-off/pipelines)
-- [GitHub Actions running](https://github.com/aBARICHELLO/game-off/actions)
+- Repository examples: [test-project](https://github.com/aBARICHELLO/godot-ci/tree/master/test-project) | [game-off](https://gitlab.com/BARICHELLO/game-off).
+- Test deploys using this tool: [GitHub Pages](http://barichello.me/godot-ci/) | [GitLab Pages](https://barichello.gitlab.io/godot-ci/) | [Itch.io](https://barichello.itch.io/test-project).
 
 ## Platforms
 
-Here's a mapping between each supported CI service and the template jobs.
+Here's a mapping between each supported CI service, the template jobs and a live example.
 
 |CI|Template|Example
 |-|-|-|
-|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L22-L56) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L59-L74) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L77-L89) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L91-L111)|[GitLab CI Pipelines](https://gitlab.com/BARICHELLO/game-off/pipelines)
-|GitHub Actions|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.github/workflows/godot-ci.yml#L9-L87)
+|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L16-L58) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L60-L76) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L78-L91) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L93-L113)|[GitLab CI Pipelines](https://gitlab.com/BARICHELLO/godot-ci/pipelines)
+|GitHub Actions|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.github/workflows/godot-ci.yml#L8-99) | [GitHub Actions running](https://github.com/aBARICHELLO/godot-ci/actions)
 
 ## Environment configuration
 
@@ -40,8 +38,8 @@ Secrets needed for a GitHub Pages deploy via GitLab CI:
 |Variable|Description|Example|
 |-|-|-|
 | REMOTE_URL | The `git remote` where the web export will be hosted (in this case GitHub), it should contain your [deploy/personal access token](https://github.com/settings/tokens)|`https://<github username>:<deploy token>@github.com/<username>/<repository>.git`
-| GIT_EMAIL | Git email of the account that will commit to the `gh-pages` branch. | `artur@barichello.me`
-| GIT_USERNAME | Username of the account that will commit to the `gh-pages` branch. | `abarichello`
+| GIT_EMAIL | Git email of the account that will commit to the `gh-pages` branch. | `email@example.com`
+| GIT_USERNAME | Username of the account that will commit to the `gh-pages` branch. | `username`
 
 Others variables are set automatically by the `gitlab-runner`, see the documentation for [predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).<br>
 
@@ -61,3 +59,6 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 #### Problems while exporting
 - Check that the export names on `export_presets.cfg` match the ones used in your CI script.
 - Check the paths used in your CI script, some commands may be running in the wrong place if you are keeping the project in a folder (like the `test-project` template) or not.
+
+#### Authentication errors with Butler
+- If using GitLab check that the 'protected' tag is disabled in the [CI/CD variables panel](https://github.com/aBARICHELLO/godot-ci#environment-configuration).
