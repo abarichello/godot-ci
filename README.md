@@ -21,9 +21,9 @@ https://hub.docker.com/r/barichello/godot-ci/
 
 Here's a mapping between each supported CI service and the template jobs.
 
-|CI|Template|
-|-|-|
-|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L22-L56) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L59-L74) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L77-L89) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L91-L111)
+|CI|Template|Example
+|-|-|-|
+|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L22-L56) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L59-L74) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L77-L89) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L91-L111)|[GitLab CI Pipelines](https://gitlab.com/BARICHELLO/game-off/pipelines)
 |GitHub Actions|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.github/workflows/godot-ci.yml#L9-L87)
 
 ## Environment configuration
@@ -55,3 +55,9 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 | ITCHIO_USERNAME | Your username on Itch.io, as in your personal page will be at `https://<username>.itch.io` |`username`
 | ITCHIO_GAME | the name of your game on Itchio, as in your game will be available at `https://<username>.itch.io/<game>`  |`game`
 | BUTLER_API_KEY | An [Itch.io API key](https://itch.io/user/settings/api-keys) is necessary for Butler so that the CI can authenticate on Itch.io on your behalf. **Make that API key `Masked`(GitLab CI) to keep it secret** |`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+
+## Troubleshoot
+
+#### Problems while exporting
+- Check that the export names on `export_presets.cfg` match the ones used in your CI script.
+- Check the paths used in your CI script, some commands may be running in the wrong place if you are keeping the project in a folder (like the `test-project` template) or not.

@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/EnemyGenerator.gd" type="Script" id=1]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 802.371, -163.584, 0, 0, 0, 0, 959.909, -42.497, 0, 0, 0, 0, 1955.58, -35.2126, 0, 0, 0, 0, 1977.69, -34.257, 0, 0, 0, 0, 2072.89, -95.3282, 0, 0, 0, 0, 2171.96, -161.2, 0, 0, 0, 0, 1329.54, -162.398, 0, 0, 0, 0, 958.623, -161.461, 0, 0, 0, 0, 801.772, -163.584, 0, 0, 0, 0, 802.371, -163.584 )
+}
+
+[node name="EnemyGenerator" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="SpawnArea" type="Path2D" parent="."]
+self_modulate = Color( 0.5, 0.6, 1, 0.7 )
+curve = SubResource( 1 )
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnArea"]
+position = Vector2( 802.371, -163.584 )
+rotation = 0.655325
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 1.5
+one_shot = false
+autostart = true
+
+[connection signal="start" from="." to="." method="_on_EnemyGenerator_start"]
+[connection signal="stop" from="." to="." method="_on_EnemyGenerator_stop"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

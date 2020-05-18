@@ -1,0 +1,2 @@
+# Ignore GDScript since it isn't really relevant to the project and only used as example
+*.gd linguist-detectable=false
