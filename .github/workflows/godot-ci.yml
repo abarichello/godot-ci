@@ -10,7 +10,7 @@ jobs:
     name: Windows Export
     runs-on: ubuntu-latest
     container:
-      image: docker://barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.1
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -20,14 +20,14 @@ jobs:
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Windows Build
         run: |
-          cd test-project
           mkdir -v -p build/windows
-          godot -v --export "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
+          cd test-project
+          godot -v --export "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: windows
-          path: test-project/build/windows/
+          path: build/windows
 
   export-linux:
     name: Linux Export
@@ -43,20 +43,20 @@ jobs:
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Linux Build
         run: |
-          cd test-project 
           mkdir -v -p build/linux
-          godot -v --export "Linux/X11" ./build/linux/$EXPORT_NAME.x86_64
+          cd test-project
+          godot -v --export "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: linux
-          path: test-project/build/linux/
+          path: build/linux
 
   export-web:
     name: Web Export
     runs-on: ubuntu-latest
     container:
-      image: docker://barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.1
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -66,20 +66,20 @@ jobs:
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Web Build
         run: |
-          cd test-project 
           mkdir -v -p build/web
-          godot -v --export "HTML5" ./build/web/index.html
+          cd test-project
+          godot -v --export "HTML5" ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: web
-          path: test-project/build/web/
+          path: build/web
 
   export-mac:
     name: Mac Export
     runs-on: ubuntu-latest
     container:
-      image: docker://barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.1
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -89,11 +89,11 @@ jobs:
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
       - name: Mac Build
         run: |
+          mkdir -v -p build/mac
           cd test-project
-          mkdir -v -p build/mac 
-          godot -v --export "Mac OSX" ./build/mac/$EXPORT_NAME.zip
+          godot -v --export "Mac OSX" ../build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: mac
-          path: test-project/build/mac/
+          path: build/mac
