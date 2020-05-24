@@ -15,6 +15,10 @@ https://hub.docker.com/r/barichello/godot-ci/
 - Repository examples: [test-project](https://github.com/aBARICHELLO/godot-ci/tree/master/test-project) | [game-off](https://gitlab.com/BARICHELLO/game-off).
 - Test deploys using this tool: [GitHub Pages](http://barichello.me/godot-ci/) | [GitLab Pages](https://barichello.gitlab.io/godot-ci/) | [Itch.io](https://barichello.itch.io/test-project).
 
+### Mono/C#
+
+To build a godot project with Mono enabled, change the image tag from `barichello/godot-ci:VERSION` to `barichello/godot-ci:mono-VERSION` in `.gitlab-ci.yml` (Gitlab) or `godot-ci.yml` (Github). e.g. `barichello/godot-ci:mono-3.2.1`.
+
 ## Platforms
 
 Here's a mapping between each supported CI service, the template jobs and a live example.
