@@ -16,15 +16,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # When in doubt see the downloads page
 # https://downloads.tuxfamily.org/godotengine/
-ENV GODOT_VERSION "3.2.1"
+ENV GODOT_VERSION "3.2.2"
 
 # Example values: stable, beta1, rc2, alpha3, etc.
 # Also change the SUBDIR property when NOT using stable
-ENV RELEASE_NAME "stable"
+ENV RELEASE_NAME "beta3"
 
 # This is only needed for non-stable builds (alpha, beta, RC)
 # e.g. SUBDIR "/beta1"
-ENV SUBDIR "" 
+ENV SUBDIR "/beta3" 
 
 RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/mono/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_linux_headless_64.zip \
     && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/mono/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz
