@@ -12,6 +12,7 @@ https://hub.docker.com/r/barichello/godot-ci/
 <br>For live projects, examples and tutorials using this template check the list below:<br>
 
 - [Video tutorial by Kyle Luce](https://www.youtube.com/watch?v=wbc1qut0vT4)
+- [Video tutorial series by David Snopek](https://www.youtube.com/watch?v=4oUs4IV_Mj4&list=PLCBLMvLIundAOAiCvluBNuEA0-ea7_EDp)
 - Repository examples: [test-project](https://github.com/aBARICHELLO/godot-ci/tree/master/test-project) | [game-off](https://gitlab.com/BARICHELLO/game-off).
 - Test deploys using this tool: [GitHub Pages](http://barichello.me/godot-ci/) | [GitLab Pages](https://barichello.gitlab.io/godot-ci/) | [Itch.io](https://barichello.itch.io/test-project).
 
