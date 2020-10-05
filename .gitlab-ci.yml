@@ -57,6 +57,42 @@ web:
     paths:
       - build/web
 
+# Android Debug Job. It will use the generated debug.keystore. 
+android_debug:
+  stage: export
+  script:
+    - mkdir -v -p build/android
+    - cd $EXPORT_NAME
+    - godot -v --export-debug "Android Debug" ../build/android/$EXPORT_NAME-debug.apk
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - build/android
+
+# Android Release Job. You will need to include keystore and password in the GitLab variable settings: 
+# 1. Take your generated keystore and convert it to base64: base64 release.keystore
+# 2. Go to Gitlab Project > Settings > CI/CD > Variables and copy the base64 keystore value in a new variable SECRET_RELEASE_KEYSTORE_BASE64 as type file
+# 3. Create a second variable SECRET_RELEASE_KEYSTORE_USER as type variable with the alias of your keystore as value.
+# 4. Create a third variable SECRET_RELEASE_KEYSTORE_PASSWORD as type variable with the password of your keystore as value.
+android:
+  stage: export
+  rules:
+    - if: $SECRET_RELEASE_KEYSTORE_BASE64
+    - if: $SECRET_RELEASE_KEYSTORE_USER
+    - if: $SECRET_RELEASE_KEYSTORE_PASSWORD
+  script:
+    - echo $SECRET_RELEASE_KEYSTORE_BASE64 | base64 --decode > /root/release.keystore
+    - mkdir -v -p build/android
+    - cd $EXPORT_NAME
+    - sed 's@keystore/release=".*"@keystore/release="'/root/release.keystore'"@g' -i export_presets.cfg
+    - sed 's@keystore/release_user=".*"@keystore/release_user="'$SECRET_RELEASE_KEYSTORE_USER'"@g' -i export_presets.cfg
+    - sed 's@keystore/release_password=".*"@keystore/release_password="'$SECRET_RELEASE_KEYSTORE_PASSWORD'"@g' -i export_presets.cfg
+    - godot -v --export "Android" ../build/android/$EXPORT_NAME.apk
+  artifacts:
+    name: $EXPORT_NAME-$CI_JOB_NAME
+    paths:
+      - build/android
+      
 # GitHub Pages Deploy
 deploy-github-pages:
   stage: deploy
