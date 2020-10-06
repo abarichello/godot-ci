@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     adb \
-    openjdk-8-jdk \
+    openjdk-8-jdk-headless \
     && rm -rf /var/lib/apt/lists/*
 
 ENV GODOT_VERSION "3.2.3"
