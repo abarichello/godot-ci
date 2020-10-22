@@ -2,7 +2,7 @@ name: "godot-ci export"
 on: push
 
 env:
-  GODOT_VERSION: 3.2.1
+  GODOT_VERSION: 3.2.2
   EXPORT_NAME: test-project
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     name: Windows Export
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -33,7 +33,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -56,7 +56,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -89,7 +89,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:3.2.1
+      image: barichello/godot-ci:3.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v1
