@@ -18,12 +18,12 @@ RUN apt-get update && apt-get full-upgrade --yes && apt-get install --yes --no-i
     wine-stable \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget --quiet https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -O /usr/local/bin/rcedit.exe
+RUN wget --no-verbose https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -O /usr/local/bin/rcedit.exe
 
 ENV GODOT_VERSION "3.2.3"
 
-RUN wget --quiet https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
-    && wget --quiet https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz \
+RUN wget --no-verbose https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
+    && wget --no-verbose https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}.stable \
