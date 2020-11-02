@@ -70,8 +70,10 @@ android_debug:
       - build/android
 
 # Android Release Job. You will need to include keystore and password in the GitLab variable settings: 
-# 1. Take your generated keystore and convert it to base64: base64 release.keystore -w 0
-# 2. Go to Gitlab Project > Settings > CI/CD > Variables and copy the base64 keystore value in a new variable SECRET_RELEASE_KEYSTORE_BASE64 as type file
+# 1. Take your generated keystore and convert it to base64: 
+#   Linux & macOS: `base64 release.keystore -w 0`  
+#   Windows: `certutil -encodehex -f release.keystore encoded.txt 0x40000001`  
+# 2. Go to Gitlab Project > Settings > CI/CD > Variables and copy the base64 keystore value in a new variable SECRET_RELEASE_KEYSTORE_BASE64 as type variable.
 # 3. Create a second variable SECRET_RELEASE_KEYSTORE_USER as type variable with the alias of your keystore as value.
 # 4. Create a third variable SECRET_RELEASE_KEYSTORE_PASSWORD as type variable with the password of your keystore as value.
 android:

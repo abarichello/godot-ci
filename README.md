@@ -25,8 +25,10 @@ To build a godot project with Mono enabled, change the image tag from `barichell
 To build a debug release (debug.keystore), use the `android_debug` job example in the `gitlab-ci.yml` file.
 
 If you want to export for Android with your own keystore, you can do this with the following steps:
-1. Take your generated keystore and convert it to base64: `base64 release.keystore -w 0`
-2. Go to Gitlab Project > Settings > CI/CD > Variables and copy the base64 keystore value in a new variable SECRET_RELEASE_KEYSTORE_BASE64 as type file
+1. Take your generated keystore and convert it to base64:  
+Linux & macOS: `base64 release.keystore -w 0`  
+Windows: `certutil -encodehex -f release.keystore encoded.txt 0x40000001`  
+2. Go to Gitlab Project > Settings > CI/CD > Variables and copy the base64 keystore value in a new variable SECRET_RELEASE_KEYSTORE_BASE64 as type variable.
 3. Create a second variable SECRET_RELEASE_KEYSTORE_USER as type variable with the alias of your keystore as value.
 4. Create a third variable SECRET_RELEASE_KEYSTORE_PASSWORD as type variable with the password of your keystore as value.
 5. Use the `android` job example in the `gitlab-ci.yml` file.
