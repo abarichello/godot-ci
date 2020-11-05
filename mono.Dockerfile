@@ -7,6 +7,7 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
+    git-lfs \
     python \
     python-openssl \
     unzip \
@@ -25,7 +26,7 @@ ENV RELEASE_NAME "stable"
 # This is only needed for non-stable builds (alpha, beta, RC)
 # e.g. SUBDIR "/beta3"
 # Use an empty string "" when the RELEASE_NAME is "stable"
-ENV SUBDIR "" 
+ENV SUBDIR ""
 
 RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/mono/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_linux_headless_64.zip \
     && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/mono/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz
