@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 LABEL author="artur@barichello.me"
 
 USER root
