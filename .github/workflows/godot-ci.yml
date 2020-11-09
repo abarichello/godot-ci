@@ -13,7 +13,9 @@ jobs:
       image: barichello/godot-ci:3.2.3
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
@@ -36,7 +38,9 @@ jobs:
       image: barichello/godot-ci:3.2.3
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
@@ -59,7 +63,9 @@ jobs:
       image: barichello/godot-ci:3.2.3
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
@@ -92,7 +98,9 @@ jobs:
       image: barichello/godot-ci:3.2.3
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
