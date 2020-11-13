@@ -1,6 +1,5 @@
 FROM mono:latest
-LABEL author="artur@barichello.me,asheraryam@gmail.com"
-
+LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
 

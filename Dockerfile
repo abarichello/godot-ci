@@ -1,5 +1,5 @@
 FROM ubuntu:focal
-LABEL author="artur@barichello.me"
+LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
 
