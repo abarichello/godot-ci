@@ -2,7 +2,7 @@ FROM ubuntu:focal
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
-ARG DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
