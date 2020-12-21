@@ -45,7 +45,7 @@ After that, you would use the custom build to export your project as usual. See 
 
 ### iOS
 
-Not available yet. Automating xcode projects is doable but not trivial, and mac runners only recently became available for github actions, so it will happen eventually.
+Not available yet. Automating Xcode projects is doable but not trivial, and macOS runners only recently became available for GitHub actions, so it will happen eventually.
 
 ## Platforms
 
