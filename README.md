@@ -39,7 +39,7 @@ See [this repository](https://github.com/2shady4u/godot-cpp-ci) for automating G
 
 ### Modules
 
-You have to compile the modules with godot first, see [this excellent repository](https://gitlab.com/Calinou/godot-builds-ci) by Calinou for automating godot builds. 
+You have to compile Godot with the modules included first. See [this excellent repository](https://gitlab.com/Calinou/godot-builds-ci) by Calinou for automating Godot builds. 
 
 After that you would use the custom build to export your project as usual, see [this guide](https://gitlab.com/greenfox/godot-build-automation/-/blob/master/advanced_topics.md#using-a-custom-build-of-godot) by Greenfox on how to use a custom godot build for automated exports.
 
