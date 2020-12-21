@@ -97,4 +97,4 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 
 ## Additional Resources
 
-Greenfox has an [excellent repo](https://gitlab.com/greenfox/godot-build-automation) that is also for automating godot exports.
+Greenfox has an [excellent repo](https://gitlab.com/greenfox/godot-build-automation) that is also for automating Godot exports.
