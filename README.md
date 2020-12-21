@@ -33,6 +33,20 @@ Windows: `certutil -encodehex -f release.keystore encoded.txt 0x40000001`
 4. Create a third variable SECRET_RELEASE_KEYSTORE_PASSWORD as type variable with the password of your keystore as value.
 5. Use the `android` job example in the `gitlab-ci.yml` file.
 
+### GDNative/C++
+
+See [this repository](https://github.com/2shady4u/godot-cpp-ci) for automating GDNative C++ compilation, which is based off this repository.
+
+### Modules
+
+You have to compile Godot with the modules included first. See [this excellent repository](https://gitlab.com/Calinou/godot-builds-ci) by Calinou for automating Godot builds. 
+
+After that, you would use the custom build to export your project as usual. See [this guide](https://gitlab.com/greenfox/godot-build-automation/-/blob/master/advanced_topics.md#using-a-custom-build-of-godot) by Greenfox on how to use a custom Godot build for automated exports.
+
+### iOS
+
+Not available yet. Automating Xcode projects is doable but not trivial, and macOS runners only recently became available for GitHub actions, so it will happen eventually.
+
 ## Platforms
 
 Here's a mapping between each supported CI service, the template jobs and a live example.
@@ -80,3 +94,7 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 
 #### Authentication errors with Butler
 - If using GitLab check that the 'protected' tag is disabled in the [CI/CD variables panel](https://github.com/aBARICHELLO/godot-ci#environment-configuration).
+
+## Additional Resources
+
+Greenfox has an [excellent repo](https://gitlab.com/greenfox/godot-build-automation) that is also for automating Godot exports.
