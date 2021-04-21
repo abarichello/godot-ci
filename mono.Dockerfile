@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # When in doubt see the downloads page
 # https://downloads.tuxfamily.org/godotengine/
-ENV GODOT_VERSION "3.2.3"
+ENV GODOT_VERSION "3.3"
 
 # Example values: stable, beta3, rc1, alpha2, etc.
 # Also change the SUBDIR property when NOT using stable
