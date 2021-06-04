@@ -1,5 +1,8 @@
 image: barichello/godot-ci:3.2.3
 
+# NOTE: the `cd` command in each build stage is not necessary if your
+# project.godot is at the repo root
+
 # Cache imported assets between runs
 cache:
   key: import-assets
