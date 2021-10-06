@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     adb \
     openjdk-8-jdk-headless \
+    android-sdk \
     && rm -rf /var/lib/apt/lists/*
 
 ENV GODOT_VERSION "3.3.4"
@@ -36,8 +37,17 @@ RUN /opt/butler/bin/butler -V
 ENV PATH="/opt/butler/bin:${PATH}"
 
 # Adding android keystore and settings
+
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 \
     && mv debug.keystore /root/debug.keystore
+
+ENV ANDROID_HOME="/usr/lib/android-sdk"
+ENV PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$PATH"
+
+RUN wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip \
+    && unzip commandlinetools-linux-*_latest.zip -d cmdline-tools \
+    && mv cmdline-tools $ANDROID_HOME/
+
 RUN godot -e -q
 RUN echo 'export/android/adb = "/usr/bin/adb"' >> ~/.config/godot/editor_settings-3.tres
 RUN echo 'export/android/jarsigner = "/usr/bin/jarsigner"' >> ~/.config/godot/editor_settings-3.tres
@@ -47,3 +57,4 @@ RUN echo 'export/android/debug_keystore_pass = "android"' >> ~/.config/godot/edi
 RUN echo 'export/android/force_system_user = false' >> ~/.config/godot/editor_settings-3.tres
 RUN echo 'export/android/timestamping_authority_url = ""' >> ~/.config/godot/editor_settings-3.tres
 RUN echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-3.tres
+RUN echo 'export/android/android_sdk_path = "/usr/lib/android-sdk"' >> ~/.config/godot/editor_settings-3.tres
