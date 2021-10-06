@@ -1,4 +1,4 @@
-image: barichello/godot-ci:3.2.3
+image: barichello/godot-ci:3.3.4
 
 # NOTE: the `cd` command in each build stage is not necessary if your
 # project.godot is at the repo root
@@ -60,7 +60,7 @@ web:
     paths:
       - build/web
 
-# Android Debug Job. It will use the generated debug.keystore. 
+# Android Debug Job. It will use the generated debug.keystore.
 android_debug:
   stage: export
   script:
@@ -72,10 +72,10 @@ android_debug:
     paths:
       - build/android
 
-# Android Release Job. You will need to include keystore and password in the GitLab variable settings: 
-# 1. Take your generated keystore and convert it to Base64: 
-#   Linux & macOS: `base64 release.keystore -w 0`  
-#   Windows: `certutil -encodehex -f release.keystore encoded.txt 0x40000001`  
+# Android Release Job. You will need to include keystore and password in the GitLab variable settings:
+# 1. Take your generated keystore and convert it to Base64:
+#   Linux & macOS: `base64 release.keystore -w 0`
+#   Windows: `certutil -encodehex -f release.keystore encoded.txt 0x40000001`
 # 2. Go to GitLab Project > Settings > CI/CD > Variables and copy the Base64-encoded keystore value in a new variable `SECRET_RELEASE_KEYSTORE_BASE64` as type variable.
 # 3. Create a second variable SECRET_RELEASE_KEYSTORE_USER as type variable with the alias of your keystore as value.
 # 4. Create a third variable SECRET_RELEASE_KEYSTORE_PASSWORD as type variable with the password of your keystore as value.
@@ -97,7 +97,7 @@ android:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
       - build/android
-      
+
 # GitHub Pages Deploy
 deploy-github-pages:
   stage: deploy
