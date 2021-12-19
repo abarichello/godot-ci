@@ -1,4 +1,4 @@
-image: barichello/godot-ci:3.4
+image: barichello/godot-ci:3.4.1
 
 # NOTE: the `cd` command in each build stage is not necessary if your
 # project.godot is at the repo root
