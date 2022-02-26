@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     adb \
     openjdk-8-jdk-headless \
+    rsync \
     && rm -rf /var/lib/apt/lists/*
 
 ENV GODOT_VERSION "3.4.2"
