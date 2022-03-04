@@ -13,10 +13,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     adb \
-    openjdk-8-jdk-headless \
+    openjdk-11-jdk-headless \
     rsync \
     && rm -rf /var/lib/apt/lists/*
 
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV GODOT_VERSION "3.4.2"
 
 RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux_headless.64.zip \
