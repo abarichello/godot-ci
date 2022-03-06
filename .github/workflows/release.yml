@@ -7,7 +7,7 @@ env:
 jobs:
   version:
     name: Get Version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       version: ${{ steps.calculate.outputs.version }}
       release_name: ${{ steps.calculate.outputs.release_name }}
@@ -19,7 +19,7 @@ jobs:
           echo "::set-output name=release_name::${REF_NAME#*-}"
   build:
     name: Build Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [version]
     steps:
       - uses: actions/checkout@v3
@@ -50,7 +50,7 @@ jobs:
             GODOT_VERSION=${{ needs.version.outputs.version }}
   build-mono:
     name: Build Mono Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [version]
     steps:
       - uses: actions/checkout@v3

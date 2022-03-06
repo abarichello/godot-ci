@@ -6,7 +6,7 @@ on:
 jobs:
   fetch:
     name: Fetch Latest Godot Engine Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       release_tag: ${{ steps.parse.outputs.tag }}
       json: ${{ steps.get_latest_release.outputs.data }}
@@ -25,7 +25,7 @@ jobs:
           echo "::set-output name=tag::$TAG"
   current:
     name: Fetch Current Godot CI release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       release_tag: ${{ steps.parse.outputs.tag }}
     steps:
@@ -37,7 +37,7 @@ jobs:
   create:
     needs: [fetch, current]
     name: Create New Godot CI Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: needs.fetch.outputs.release_tag != needs.current.outputs.release_tag 
     steps:
       - uses: actions/checkout@v3
