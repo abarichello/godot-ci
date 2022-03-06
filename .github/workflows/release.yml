@@ -1,0 +1,18 @@
+name: Release
+on:
+  release:
+    types: [released]
+jobs:
+  version:
+    name: Get Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.calculate.outputs.version }}
+      release_name: ${{ steps.calculate.outputs.release_name }}
+    steps:
+      - run: CLEAN=`sed -e 's/^v//' <<< $GITHUB_REF`
+      - id: calculate
+        run: |
+          echo "::set-output name=version::${CLEAN%-*}"
+          echo "::set-output name=release_name::${CLEAN#*-}"
+  
