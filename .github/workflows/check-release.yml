@@ -2,7 +2,9 @@ name: "Check Releases"
 on:
   schedule:
     - cron: '27 23 * * *'
-
+  push:
+    branches:
+      - master
 jobs:
   fetch:
     name: Fetch Latest Godot Engine Release
@@ -51,3 +53,4 @@ jobs:
         with:
           body_path: body.txt
           tag_name: ${{ needs.fetch.outputs.release_tag }}
+          token: ${{ secrets.PAT }}
