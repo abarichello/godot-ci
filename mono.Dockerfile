@@ -17,11 +17,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # When in doubt see the downloads page
 # https://downloads.tuxfamily.org/godotengine/
-ENV GODOT_VERSION "3.4.2"
+ARG GODOT_VERSION="3.4.2"
 
 # Example values: stable, beta3, rc1, alpha2, etc.
 # Also change the SUBDIR property when NOT using stable
-ENV RELEASE_NAME "stable"
+ARG RELEASE_NAME="stable"
 
 # This is only needed for non-stable builds (alpha, beta, RC)
 # e.g. SUBDIR "/beta3"

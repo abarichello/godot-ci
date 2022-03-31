@@ -8,7 +8,7 @@ env:
 jobs:
   export-windows:
     name: Windows Export
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.3.4
     steps:
@@ -33,7 +33,7 @@ jobs:
 
   export-linux:
     name: Linux Export
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.3.4
     steps:
@@ -58,7 +58,7 @@ jobs:
 
   export-web:
     name: Web Export
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.3.4
     steps:
@@ -80,6 +80,9 @@ jobs:
         with:
           name: web
           path: build/web
+      - name: Install rsync 📚
+        run: |
+          apt-get update && apt-get install -y rsync
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
@@ -88,7 +91,7 @@ jobs:
 
   export-mac:
     name: Mac Export
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:3.3.4
     steps:
