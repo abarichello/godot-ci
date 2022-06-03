@@ -1,26 +1,22 @@
-name: Release
+name: Manual Build
 on:
-  release:
-    types: [released]
+ workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of engine to build e.g. "3.4.4", "3.5"'     
+        required: true
+        type: string
+      release_name:
+        description: 'Release name, usually "stable", but can also be something like "rc3", "beta1"'
+        type: string
+        default: "stable"
+        required: true
 env:
   IMAGE_NAME: godot-ci
 jobs:
-  version:
-    name: Get Version
-    runs-on: ubuntu-20.04
-    outputs:
-      version: ${{ steps.calculate.outputs.version }}
-      release_name: ${{ steps.calculate.outputs.release_name }}
-    steps:
-      - id: calculate
-        run: |
-          REF_NAME=${{ github.ref_name }}
-          echo "::set-output name=version::${REF_NAME%-*}"
-          echo "::set-output name=release_name::${REF_NAME#*-}"
   build:
     name: Build Image
     runs-on: ubuntu-20.04
-    needs: [version]
     steps:
       - uses: actions/checkout@v3
       - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
@@ -35,6 +31,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run:  echo IMAGE_TAG=$(echo ${{ github.event.inputs.release_name != 'stable' && format('.{0}', github.event.inputs.release_name) || '' }}) >> $GITHUB_ENV
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.9.0
         with:
@@ -42,17 +39,15 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ needs.version.outputs.version }}
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.version.outputs.version }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
           build-args: |
-            GODOT_VERSION=${{ needs.version.outputs.version }}
-            RELEASE_NAME=${{ needs.version.outputs.release_name }}
+            GODOT_VERSION=${{ github.event.inputs.version }}
+            RELEASE_NAME=${{ github.event.inputs.release_name }}
+            SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
   build-mono:
     name: Build Mono Image
     runs-on: ubuntu-20.04
-    needs: [version]
     steps:
       - uses: actions/checkout@v3
       - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
@@ -67,6 +62,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run:  echo IMAGE_TAG=$(echo ${{ github.event.inputs.release_name != 'stable' && format('.{0}', github.event.inputs.release_name) || '' }}) >> $GITHUB_ENV
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.9.0
         with:
@@ -74,11 +70,10 @@ jobs:
           file: mono.Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:mono-${{ needs.version.outputs.version }}
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:mono-latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ needs.version.outputs.version }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
           build-args: |
-            GODOT_VERSION=${{ needs.version.outputs.version }}
-            RELEASE_NAME=${{ needs.version.outputs.release_name }}
+            GODOT_VERSION=${{ github.event.inputs.version }}
+            RELEASE_NAME=${{ github.event.inputs.release_name }}
+            SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
             
