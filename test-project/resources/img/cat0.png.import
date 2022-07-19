@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/cat0.png-c2a0d2145a7b7ae5da0c2cedfce916ba.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
@@ -25,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

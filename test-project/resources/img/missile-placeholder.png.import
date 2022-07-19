@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/missile-placeholder.png-1d86beeaaa1c40b1fbc4c2a8d00be077.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
@@ -25,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

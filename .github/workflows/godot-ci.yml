@@ -2,15 +2,17 @@ name: "godot-ci export"
 on: push
 
 env:
-  GODOT_VERSION: 3.3.4
+  GODOT_VERSION: 3.4.4
   EXPORT_NAME: test-project
+  ANDROID_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+  ANDROID_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
 
 jobs:
   export-windows:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:3.4.4
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,7 +37,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:3.4.4
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -60,7 +62,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:3.4.4
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -93,7 +95,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.3.4
+      image: barichello/godot-ci:3.4.4
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -113,3 +115,46 @@ jobs:
         with:
           name: mac
           path: build/mac
+
+  export-android:
+    name: Android Export
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:3.4.4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+          mkdir -v -p ~/.config/godot
+          wget -nv https://raw.githubusercontent.com/bend-n/godot-ci/editor-settings/editor-settings.tres -O ~/.config/godot/editor_settings-3.tres
+
+      - name: Android Build
+        if: ${{ env.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > ~/release.keystore
+          ANDROID_KEYSTORE_USER=$(keytool -storepass "$ANDROID_KEYSTORE_PASSWORD" -list -v -keystore ~/release.keystore |  grep -E '^Alias name:\s*(.+)$' |  cut -d ' ' -f 3-)
+          sed "s@keystore/release=\"\"@keystore/release=\"$HOME/release.keystore\"@g" -i export_presets.cfg
+          sed 's@keystore/release_user=".*"@keystore/release_user="'$ANDROID_KEYSTORE_USER'"@g' -i export_presets.cfg
+          sed 's@keystore/release_password=".*"@keystore/release_password="'$ANDROID_KEYSTORE_PASSWORD'"@g' -i export_presets.cfg
+          mkdir -vp build/android
+          cd $EXPORT_NAME
+          godot -v --export "Android" ../build/android/$NAME.apk
+
+      - name: Android Build (debug)
+        if: ${{ env.ANDROID_KEYSTORE_BASE64 }} == ""
+        run: |
+          mkdir -vp build/android
+          cd $EXPORT_NAME
+          godot -v --export-debug "Android" ../build/android/$NAME.apk
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: android
+          path: build/android
