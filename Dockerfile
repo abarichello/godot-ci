@@ -23,8 +23,8 @@ ARG GODOT_VERSION="3.4.2"
 ARG RELEASE_NAME="stable"
 ARG SUBDIR=""
 
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip \
-    && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+RUN wget -nv https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip \
+    && wget -nv https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
@@ -34,6 +34,7 @@ RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/G
     && mv templates/* ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
     && rm -f Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip
 
+
 ADD getbutler.sh /opt/butler/getbutler.sh
 RUN bash /opt/butler/getbutler.sh
 RUN /opt/butler/bin/butler -V
@@ -42,7 +43,7 @@ ENV PATH="/opt/butler/bin:${PATH}"
 
 # Download and setup android-sdk
 ENV ANDROID_HOME="/usr/lib/android-sdk"
-RUN wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip \
+RUN wget -nv https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip \
     && unzip commandlinetools-linux-*_latest.zip -d cmdline-tools \
     && mv cmdline-tools $ANDROID_HOME/ \
     && rm -f commandlinetools-linux-*_latest.zip
@@ -56,11 +57,6 @@ RUN yes | sdkmanager --licenses \
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 \
     && mv debug.keystore /root/debug.keystore
 
+# Install editor-settings.tres
+RUN wget -nv https://raw.githubusercontent.com/bend-n/godot-ci/master/editor-settings.tres -O ~/.config/godot/editor_settings-3.tres
 RUN godot -e -q
-RUN echo 'export/android/android_sdk_path = "/usr/lib/android-sdk"' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/debug_keystore = "/root/debug.keystore"' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/debug_keystore_user = "androiddebugkey"' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/debug_keystore_pass = "android"' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/force_system_user = false' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/timestamping_authority_url = ""' >> ~/.config/godot/editor_settings-3.tres
-RUN echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-3.tres
