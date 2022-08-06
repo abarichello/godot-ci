@@ -11,19 +11,12 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       release_tag: ${{ steps.parse.outputs.tag }}
-      json: ${{ steps.get_latest_release.outputs.data }}
-    steps:
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-          route: GET /repos/godotengine/godot/releases/latest
-          owner: octokit
-          repo: request-action
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+    steps:    
       - id: parse
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG=$(echo '${{ steps.get_latest_release.outputs.data }}' | jq --raw-output .tag_name)
+          TAG=$(gh release view --repo godotengine/godot --json tagName --jq .tagName)
           echo "::set-output name=tag::$TAG"
   current:
     name: Fetch Current Godot CI release
@@ -43,7 +36,9 @@ jobs:
     if: needs.fetch.outputs.release_tag != needs.current.outputs.release_tag 
     steps:
       - uses: actions/checkout@v3
-      - run: echo '${{ needs.fetch.outputs.json }}' | jq --raw-output .body | sed 's/\\r\\n/\n/g' > body.txt
+      - run: gh release view --repo godotengine/godot --json body --jq .body | sed 's/\\r\\n/\n/g' > body.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
