@@ -15,8 +15,8 @@ jobs:
       - id: calculate
         run: |
           REF_NAME=${{ github.ref_name }}
-          echo "::set-output name=version::${REF_NAME%-*}"
-          echo "::set-output name=release_name::${REF_NAME#*-}"
+          echo "version=${REF_NAME%-*}" >> $GITHUB_OUTPUT
+          echo "release_name=${REF_NAME#*-}" >> $GITHUB_OUTPUT
   build:
     name: Build Image
     runs-on: ubuntu-20.04

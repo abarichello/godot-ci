@@ -17,7 +17,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG=$(gh release view --repo godotengine/godot --json tagName --jq .tagName)
-          echo "::set-output name=tag::$TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
   current:
     name: Fetch Current Godot CI release
     runs-on: ubuntu-20.04
@@ -28,7 +28,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: parse 
-        run: echo "::set-output name=tag::$(git tag --list --sort=-creatordate | head --lines 1)" 
+        run: echo "tag=$(git tag --list --sort=-creatordate | head --lines 1)" >> $GITHUB_OUTPUT 
   create:
     needs: [fetch, current]
     name: Create New Godot CI Release
