@@ -4,7 +4,8 @@ on: push
 env:
   GODOT_VERSION: 3.3.4
   EXPORT_NAME: test-project
-
+  PROJECT_PATH: test-project
+  
 jobs:
   export-windows:
     name: Windows Export
@@ -23,7 +24,7 @@ jobs:
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
-          cd $EXPORT_NAME
+          cd $PROJECT_PATH
           godot -v --export "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
@@ -48,7 +49,7 @@ jobs:
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
-          cd $EXPORT_NAME
+          cd $PROJECT_PATH
           godot -v --export "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
@@ -73,7 +74,7 @@ jobs:
       - name: Web Build
         run: |
           mkdir -v -p build/web
-          cd $EXPORT_NAME
+          cd $PROJECT_PATH
           godot -v --export "HTML5" ../build/web/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
@@ -106,7 +107,7 @@ jobs:
       - name: Mac Build
         run: |
           mkdir -v -p build/mac
-          cd $EXPORT_NAME
+          cd $PROJECT_PATH
           godot -v --export "Mac OSX" ../build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
