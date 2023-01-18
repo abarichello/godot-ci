@@ -16,6 +16,18 @@ https://hub.docker.com/r/barichello/godot-ci/
 - Repository examples: [test-project](https://github.com/aBARICHELLO/godot-ci/tree/master/test-project) | [game-off](https://gitlab.com/BARICHELLO/game-off).
 - Test deploys using this tool: [GitHub Pages](http://barichello.me/godot-ci/) | [GitLab Pages](https://barichello.gitlab.io/godot-ci/) | [Itch.io](https://barichello.itch.io/test-project).
 
+### General Setup
+
+1. Modify either your `.gitlab-ci.yml` or `.github/workflows/godot-ci.yml` by updating the env vars in the `env` section near the top:
+   - `GODOT_VERSION`: should match the version of your project. 
+     - After updating it accordingly, use the same value for the `image` tags throughout the file (e.g. if my version is 3.5, the statements should be `barichello/godot-ci:3.5`)
+     - Make sure to follow the `Mono/C#` section if your project uses it
+   - `EXPORT_NAME`: it's an arbitrary name used on the executables / build artifacts, using your project's name should be good enough.
+   - `PROJECT_PATH`: if your project is stored in a subdirectory of your repository, you should update with its path, otherwise you can remove this variable declaration and remove the `cd $PROJECT_PATH` statements throughout the file too.
+
+2. Make sure you've a `export_presets.cfg` file (**Project > Export...**) with all the presets for the platforms you're targeting.
+   - Also, check if your export presets names match the ones in the `godot -v --export "EXPORT_PRESET_NAME" [...]` statements.
+
 ### Mono/C#
 
 To build a Godot project with Mono (C#) enabled, you must do two things for each job:
