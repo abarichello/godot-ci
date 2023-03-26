@@ -83,6 +83,6 @@ jobs:
           build-args: |
             GODOT_VERSION=${{ needs.version.outputs.version }}
             RELEASE_NAME=${{ needs.version.outputs.release_name }}
-            GODOT_TEST_ARGS=${{ startsWith( needs.version.outputs.version, '3.' ) && '' || '--headless --quit' }}
-            GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
+            ZIP_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless_64' || 'linux_x86_64' }}
+            FILENAME_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
             
