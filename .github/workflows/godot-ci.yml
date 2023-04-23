@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Windows Build
+      - name: Windows Build  # Use "--headless --export-release" instead of "--export" with Godot 4
         run: |
           mkdir -v -p build/windows
           cd $PROJECT_PATH
@@ -46,7 +46,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Linux Build
+      - name: Linux Build  # Use "--headless --export-release" instead of "--export" with Godot 4
         run: |
           mkdir -v -p build/linux
           cd $PROJECT_PATH
@@ -71,7 +71,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Web Build
+      - name: Web Build  # Use "--headless --export-release" instead of "--export" with Godot 4
         run: |
           mkdir -v -p build/web
           cd $PROJECT_PATH
@@ -104,7 +104,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Mac Build
+      - name: Mac Build  # Use "--headless --export-release" instead of "--export" with Godot 4
         run: |
           mkdir -v -p build/mac
           cd $PROJECT_PATH
