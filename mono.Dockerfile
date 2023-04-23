@@ -1,4 +1,5 @@
-FROM mono:latest
+ARG IMAGE="mono:latest"
+FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
