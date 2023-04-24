@@ -104,7 +104,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Mac Build  # Use "--headless --export-release" instead of "--export" with Godot 4
+      - name: Mac Build  # Use "--headless --export-release" instead of "--export" and "macOS" instead of "Mac OSX" with Godot 4
         run: |
           mkdir -v -p build/mac
           cd $PROJECT_PATH

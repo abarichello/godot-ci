@@ -46,6 +46,7 @@ mac:
     - mkdir -v -p build/mac
     - cd $EXPORT_NAME
     # Use "--headless --export-release" instead of "--export" with Godot 4
+    # Use "macOS" instead of "Mac OSX" with Godot 4
     - godot -v --export "Mac OSX" ../build/mac/$EXPORT_NAME.zip
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
