@@ -7,7 +7,7 @@ image: barichello/godot-ci:4.0.2
 cache:
   key: import-assets
   paths:
-    - .import/
+    - .godot/imported/
 
 stages:
   - import-assets
@@ -22,9 +22,6 @@ import-assets:
   stage: import-assets
   script:
     - godot -v -e --quit --headless
-  artifacts:
-    paths:
-      - .import/
 
 linux:
   stage: export
