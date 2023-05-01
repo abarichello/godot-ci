@@ -81,7 +81,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ needs.version.outputs.version }}
           build-args: |
-            IMAGE=${{ startsWith( needs.version.outputs.version, '3.' ) && 'mono:latest' || 'mcr.microsoft.com/dotnet/sdk:6.0-focal' }}
+            IMAGE=${{ startsWith( needs.version.outputs.version, '3.' ) && 'mono:latest' || 'mcr.microsoft.com/dotnet/sdk:7.0-jammy' }}
             GODOT_VERSION=${{ needs.version.outputs.version }}
             RELEASE_NAME=${{ needs.version.outputs.release_name }}
             ZIP_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless_64' || 'linux_x86_64' }}
