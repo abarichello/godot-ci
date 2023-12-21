@@ -21,14 +21,14 @@ variables:
 import-assets:
   stage: import-assets
   script:
-    - godot -v -e --quit --headless
+    - godot --headless --verbose --editor --quit
 
 linux:
   stage: export
   script:
     - mkdir -v -p build/linux
     - cd $EXPORT_NAME
-    - godot -v --export-release --headless "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
+    - godot --headless --verbose --export-release "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -39,7 +39,7 @@ windows:
   script:
     - mkdir -v -p build/windows
     - cd $EXPORT_NAME
-    - godot -v --export-release --headless "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
+    - godot --headless --verbose --export-release "Windows Desktop" ../build/windows/$EXPORT_NAME.exe
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -50,7 +50,7 @@ mac:
   script:
     - mkdir -v -p build/mac
     - cd $EXPORT_NAME
-    - godot -v --export-release --headless "Mac OSX" ../build/mac/$EXPORT_NAME.zip
+    - godot --headless --verbose --export-release "Mac OSX" ../build/mac/$EXPORT_NAME.zip
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -61,7 +61,7 @@ web:
   script:
     - mkdir -v -p build/web
     - cd $EXPORT_NAME
-    - godot -v --export-release --headless "HTML5" ../build/web/index.html
+    - godot --headless --verbose --export-release "HTML5" ../build/web/index.html
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -73,7 +73,7 @@ android_debug:
   script:
     - mkdir -v -p build/android
     - cd $EXPORT_NAME
-    - godot -v --export-debug --headless "Android Debug" ../build/android/$EXPORT_NAME-debug.apk
+    - godot --headless --verbose --export-debug "Android Debug" ../build/android/$EXPORT_NAME-debug.apk
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -99,7 +99,7 @@ android:
     - sed 's@keystore/release=".*"@keystore/release="'/root/release.keystore'"@g' -i export_presets.cfg
     - sed 's@keystore/release_user=".*"@keystore/release_user="'$SECRET_RELEASE_KEYSTORE_USER'"@g' -i export_presets.cfg
     - sed 's@keystore/release_password=".*"@keystore/release_password="'$SECRET_RELEASE_KEYSTORE_PASSWORD'"@g' -i export_presets.cfg
-    - godot -v --export-release --headless "Android" ../build/android/$EXPORT_NAME.apk
+    - godot --headless --verbose --export-release "Android" ../build/android/$EXPORT_NAME.apk
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
