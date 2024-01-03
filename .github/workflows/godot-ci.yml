@@ -103,13 +103,13 @@ jobs:
           lfs: true
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/export-templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export-templates/${GODOT_VERSION}.stable
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
       - name: Mac Build
         run: |
           mkdir -v -p build/mac
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Mac OSX" ../build/mac/$EXPORT_NAME.zip
+          godot --headless --verbose --export-release "mac" ../build/mac/$EXPORT_NAME.zip
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
