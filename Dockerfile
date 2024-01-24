@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     adb \
-    openjdk-11-jdk-headless \
+    openjdk-17-jdk-headless \
     rsync \
     && rm -rf /var/lib/apt/lists/*
 
-ARG GODOT_VERSION="4.0.2"
+ARG GODOT_VERSION="4.2.1"
 ARG RELEASE_NAME="stable"
 ARG SUBDIR=""
 ARG GODOT_TEST_ARGS=""
