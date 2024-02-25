@@ -19,14 +19,14 @@ https://hub.docker.com/r/barichello/godot-ci/
 ### Mono/C#
 
 To build a Godot project with Mono (C#) enabled, you must do two things for each job:
-1. Change the container's `image` tag from `barichello/godot-ci:VERSION` to `barichello/godot-ci:mono-VERSION` in `.gitlab-ci.yml` (Gitlab) or `godot-ci.yml` (Github). (e.g. `barichello/godot-ci:mono-3.2.1`). 
-2. You will also need to change your "Setup" step's run commands (looks like `run: mv /root/.local ...`) from ending with `...${GODOT_VERSION}.stable` to ending with `...${GODOT_VERSION}.stable.mono`. You will need to do this for both directories in the command. 
+1. Change the container's `image` tag from `barichello/godot-ci:VERSION` to `barichello/godot-ci:mono-VERSION` in `.gitlab-ci.yml` (Gitlab) or `godot-ci.yml` (Github). (e.g. `barichello/godot-ci:mono-3.2.1`).
+2. You will also need to change your "Setup" step's run commands (looks like `run: mv /root/.local ...`) from ending with `...${GODOT_VERSION}.stable` to ending with `...${GODOT_VERSION}.stable.mono`. You will need to do this for both directories in the command.
 ```bash
-mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
+mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 ```
 becomes:
 ```bash
-mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
 ```
 
 ### Android
