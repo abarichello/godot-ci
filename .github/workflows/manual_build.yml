@@ -64,3 +64,19 @@ jobs:
             SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
             GODOT_TEST_ARGS=${{ startsWith( github.event.inputs.version, '3.' ) && '' || '--headless --quit' }}
             GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
+
+            
+      # Sign the resulting Docker image digest except on PRs.
+      # This will only write to the public Rekor transparency log when the Docker
+      # repository is public to avoid leaking data.  If you would like to publish
+      # transparency data even for private images, pass --force to cosign below.
+      # https://github.com/sigstore/cosign
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
