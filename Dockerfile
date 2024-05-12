@@ -21,8 +21,8 @@ ARG SUBDIR=""
 ARG GODOT_TEST_ARGS=""
 ARG GODOT_PLATFORM="linux.x86_64"
 
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
-    && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+RUN wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
+    && wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME} \
@@ -40,7 +40,7 @@ ENV PATH="/opt/butler/bin:${PATH}"
 
 # Download and setup android-sdk
 ENV ANDROID_HOME="/usr/lib/android-sdk"
-RUN wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip \
+RUN wget -q https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip \
     && unzip commandlinetools-linux-*_latest.zip -d cmdline-tools \
     && mv cmdline-tools $ANDROID_HOME/ \
     && rm -f commandlinetools-linux-*_latest.zip
