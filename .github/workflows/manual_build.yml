@@ -50,6 +50,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker images
+        id: build-and-push
         uses: docker/build-push-action@v5
         with:
           context: .
