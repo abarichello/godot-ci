@@ -22,7 +22,7 @@ jobs:
         versions:
           [
             { tag: minimal, file: Dockerfile.minimal },
-            { tag: andriod-ios, file: Dockerfile.andriod_ios },
+            { tag: andriod-ios, file: Dockerfile.android_ios },
           ]
 
     name: Build Image
