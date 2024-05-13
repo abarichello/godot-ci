@@ -1,9 +1,9 @@
 name: Manual Build
 on:
- workflow_dispatch:
+  workflow_dispatch:
     inputs:
       version:
-        description: 'Version of engine to build e.g. "3.4.4", "3.5"'     
+        description: 'Version of engine to build e.g. "3.4.4", "3.5"'
         required: true
         type: string
       release_name:
@@ -12,13 +12,21 @@ on:
         default: "stable"
         required: true
 env:
-  IMAGE_NAME: godot-ci
   REGISTRY: ghcr.io
+  IMAGE_NAME: meldanor/godot-ci
+
 jobs:
   build:
-    name: Build Image
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        versions:
+          [
+            { tag: minimal, file: Dockerfile.minimal },
+            { tag: andriod-ios, file: Dockerfile.andriod_ios },
+          ]
 
+    name: Build Image
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
       packages: write
@@ -28,8 +36,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-      - run:  echo IMAGE_TAG=$(echo ${{ github.event.inputs.release_name != 'stable' && format('.{0}', github.event.inputs.release_name) || '' }}) >> $GITHUB_ENV
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
@@ -54,8 +60,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ${{ matrix.versions.file }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}-${{ matrix.versions.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
@@ -63,10 +70,7 @@ jobs:
             GODOT_VERSION=${{ github.event.inputs.version }}
             RELEASE_NAME=${{ github.event.inputs.release_name }}
             SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
-            GODOT_TEST_ARGS=${{ startsWith( github.event.inputs.version, '3.' ) && '' || '--headless --quit' }}
-            GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
 
-            
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
@@ -76,7 +80,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}
+          TAGS: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}-${{ matrix.versions.tag }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
