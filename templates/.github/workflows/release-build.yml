@@ -1,0 +1,65 @@
+# A build that is triggered when you push a git tag im format "vX.Y.Z" (like semver).
+# This is useful for official releases you want to publish to the public.
+
+name: "release build"
+on:
+  push:
+    # Publish semver tags as releases.
+    tags: ["v*.*.*"]
+
+env:
+  # The Godot Version you want to use
+  GODOT_VERSION: 4.3.dev6
+  # The name of your export file (for example your game)
+  EXPORT_NAME: AwesomeGameName
+
+jobs:
+  export:
+    strategy:
+      # You can increase this, especially useful for private github runner
+      max-parallel: 1
+      matrix:
+        # Add your environent to this list. Your project must have the corrospending template name
+        environment:
+          [
+            {
+              godot_template: "Windows Desktop x86",
+              output_dir: windows_x86,
+              file_suffix: "exe",
+            },
+            {
+              godot_template: "Linux x86",
+              output_dir: linux_x86,
+              file_suffix: "x86_64",
+            },
+            {
+              godot_template: "Linux arm64",
+              output_dir: linux_arm64,
+              file_suffix: "arm64",
+            },
+          ]
+    runs-on: ubuntu-22.04
+    container:
+      # Change this image to the version you want
+      # We can't use a variable here because the context is not available
+      # at this part of the action
+      image: ghcr.io/meldanor/godot-ci:4.3-dev6-minimal
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup Godot templates
+        # This step is necessary because the GitHub runner overrides the root directory from the image
+        # and deletes the export templates -> so we relink them again
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          ln -sf /root/.local/share/godot/export_templates/${GODOT_VERSION} ~/.local/share/godot/export_templates/${GODOT_VERSION}
+      - name: Build
+        run: |
+          mkdir -p build/${{matrix.environment.output_dir}}
+          godot --headless --verbose --export-release "${{matrix.environment.godot_template}}" build/${{matrix.environment.output_dir}}/$EXPORT_NAME.${{matrix.environment.file_suffix}}
+          cd build/${{matrix.environment.output_dir}}
+          zip $EXPORT_NAME.zip *
+      - name: Upload
+        run: echo "Your Upload. You have cURL, rsync and butler (itch.io) in this docker"
