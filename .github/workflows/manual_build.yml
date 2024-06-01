@@ -69,7 +69,6 @@ jobs:
           build-args: |
             GODOT_VERSION=${{ github.event.inputs.version }}
             RELEASE_NAME=${{ github.event.inputs.release_name }}
-            SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker

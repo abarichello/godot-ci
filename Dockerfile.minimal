@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ARG GODOT_VERSION="4.2.2"
 ARG RELEASE_NAME="stable"
-ARG SUBDIR=""
 ARG GODOT_TEST_ARGS="--headless-quit"
 ARG GODOT_PLATFORM="linux.x86_64"
 
@@ -23,8 +22,8 @@ RUN apt-get update && \
 
 # Download Godot and export templates
 # This version removes the ios and android templates because they are not supported
-RUN wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
-    && wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+RUN wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
+    && wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME} \
@@ -36,11 +35,15 @@ RUN wget -q https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR
     && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME} \
     && rm -f Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip
 
-# Itch.io helper
-ADD getbutler.sh /opt/butler/getbutler.sh
-RUN bash /opt/butler/getbutler.sh
-RUN /opt/butler/bin/butler -V
-
-ENV PATH="/opt/butler/bin:${PATH}"
-
 RUN godot -v -e --quit --headless ${GODOT_TEST_ARGS}
+
+# Itch.io helper
+RUN mkdir -p /opt/butler/bin \
+    && cd /opt/butler/bin \
+    && wget -O butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default \
+    && unzip butler.zip \
+    && chmod +x butler
+
+ENV PATH="${PATH}:/opt/butler/bin/"
+
+RUN butler -V
