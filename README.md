@@ -18,8 +18,6 @@ The variables are:
 
 Example: You are using Godot 4.2.2 with GDscript only and want to use release to linux and windows, you use the following tag: `ghcr.io/meldanor/godot-ci:4.2.2-stable-minimal`
 
-TODO: Add ECR and docker registry as additional hostings because GitHub has a hard free limit.
-
 ## Image type
 
 Each image has multiple tags more specific for a certain cause. Here is a matrix of the different combinations and their tags:
@@ -29,9 +27,11 @@ Each image has multiple tags more specific for a certain cause. Here is a matrix
 | Without C# | minimal                       | android-ios      |
 | With C#    | minimal-mono (not yet there)  | android-ios-mono (not yet there) |
 
-## Versions
+## Godot Versions
 
-I've started with Godot 4.2.2 and 4.3-dev6 because that was the state of my project. I will start adding all other versions when I have setup the other hostings.
+This fork startet with 4.3-dev6 version. I've built all 4.X stable versions and all prerelease versions of 4.3. See the Docker registry of this project for all available tags.
+
+When Godot releases a new version, prerelease or stable, I will trigger a new build. You can expect it in 24h of release that there is a new image.
 
 ## Templates
 
@@ -39,7 +39,7 @@ In the directory `templates/.github/workflows` are three templates for building 
 
 - `release-build.yml`: Build the Godot Game only when a `vX.Y.Z` tag is pushed. Useful for releases.
 - `feature-build.yml`: Build the Godot Game only when the action is manually triggered. Useful for beta or certain features branches.
-- `nightly-build.yml`: Build the Godot Game at 02 in the morning if there were changes in the last 24h. Useful to have a history of builds and for internal use.
+- `nightly-build.yml`: THIS IS NOT WORKING AT THE MOMENT. I'AM FIXING IT. Build the Godot Game at 02 in the morning if there were changes in the last 24h. Useful to have a history of builds and for internal use.
 
 Each template has comments and provides only the build process, but not the upload / deploy / release step! You have to define this yourself. For convenience the image includes `cURL`, `rsync` and `bulter` (for itch.io).
 
