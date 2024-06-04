@@ -9,6 +9,7 @@ on:
 
 env:
   # The Godot Version you want to use
+  # IMPORTANT: You also have to manually set the image tag in the export job to the same version!
   GODOT_VERSION: 4.3.dev6
   # The name of your export file (for example your game)
   EXPORT_NAME: AwesomeGameName

@@ -7,7 +7,8 @@ on:
     - cron: "0 2 * * *"
 
 env:
-  # The Godot Version you want to use
+  # The Godot Version you want to use.
+  # IMPORTANT: You also have to manually set the image tag in the export job to the same version!
   GODOT_VERSION: 4.3.dev6
   # The name of your export file (for example your game)
   EXPORT_NAME: AwesomeGameName
@@ -20,9 +21,18 @@ jobs:
     outputs:
       changes: ${{ steps.nightly-check.outputs.changes }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
       - id: nightly-check
-        name: Check for changes since last nightly
-        uses: lukecarr/nightly-check@v0.3.1
+        name: Check for changes since 24 hours
+        shell: bash
+        # Change the 24hours to any time to you like, for example 3days
+        run: '([ $(git rev-list --after="24hours" ${{ github.sha }} | wc -l) -ge 1 ] && echo "changes=true"  || echo "changes=false") >> $GITHUB_OUTPUT'
+      - name: has_changed
+        shell: bash
+        run: echo ${{ steps.nightly-check.outputs.changes }}
 
   export:
     # Run only if there are changes in the last 24 hours

@@ -39,7 +39,7 @@ In the directory `templates/.github/workflows` are three templates for building 
 
 - `release-build.yml`: Build the Godot Game only when a `vX.Y.Z` tag is pushed. Useful for releases.
 - `feature-build.yml`: Build the Godot Game only when the action is manually triggered. Useful for beta or certain features branches.
-- `nightly-build.yml`: THIS IS NOT WORKING AT THE MOMENT. I'AM FIXING IT. Build the Godot Game at 02 in the morning if there were changes in the last 24h. Useful to have a history of builds and for internal use.
+- `nightly-build.yml`: Build the Godot Game at 02:00 in the morning if there were changes in the last 24h. Useful to have a history of builds and for internal use.
 
 Each template has comments and provides only the build process, but not the upload / deploy / release step! You have to define this yourself. For convenience the image includes `cURL`, `rsync` and `bulter` (for itch.io).
 

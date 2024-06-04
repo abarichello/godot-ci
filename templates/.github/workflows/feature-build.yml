@@ -7,6 +7,7 @@ on:
 
 env:
   # The Godot Version you want to use
+  # IMPORTANT: You also have to manually set the image tag in the export job to the same version!
   GODOT_VERSION: 4.3.dev6
   # The name of your export file (for example your game)
   EXPORT_NAME: AwesomeGameName
@@ -56,7 +57,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           ln -sf /root/.local/share/godot/export_templates/${GODOT_VERSION} ~/.local/share/godot/export_templates/${GODOT_VERSION}
-      - name: Build 
+      - name: Build
         run: |
           mkdir -p build/${{matrix.environment.output_dir}}
           godot --headless --verbose --export-release "${{matrix.environment.godot_template}}" build/${{matrix.environment.output_dir}}/$EXPORT_NAME.${{matrix.environment.file_suffix}}
