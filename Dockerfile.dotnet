@@ -1,5 +1,6 @@
-FROM mono:slim
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 
+# There are some directories called mono but Godot 4.x suggest using .net runtime instead.
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -25,7 +26,7 @@ RUN apt-get update && \
 # Itch.io helper
 RUN mkdir -p /opt/butler/bin \
     && cd /opt/butler/bin \
-    && wget -O butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default \
+    && wget -q -O butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default \
     && unzip butler.zip \
     && chmod +x butler
 
@@ -34,7 +35,7 @@ ENV PATH="${PATH}:/opt/butler/bin/"
 RUN butler -V
 
 # Download Godot and export templates
-# This version removes the ios, android  because they are marked as experimental for Mono support or not functional at all
+# This version removes the ios and android templates because they are marked as experimental for C# support or not functional at all
 RUN wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}.zip \
     && wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
     && mkdir ~/.cache \

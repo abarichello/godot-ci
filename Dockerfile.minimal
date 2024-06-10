@@ -23,7 +23,7 @@ RUN apt-get update && \
 # Itch.io helper
 RUN mkdir -p /opt/butler/bin \
     && cd /opt/butler/bin \
-    && wget -O butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default \
+    && wget -q -O butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default \
     && unzip butler.zip \
     && chmod +x butler
 
