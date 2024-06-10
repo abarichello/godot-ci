@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG GODOT_VERSION="4.2.2"
 ARG RELEASE_NAME="stable"
 ARG GODOT_TEST_ARGS="--headless-quit"
-ARG GODOT_PLATFORM="linux.x86_64"
+ARG GODOT_PLATFORM="linux_x86_64"
+ARG GODOT_PLATFORM_FILE_NAME="linux.x86_64"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -32,19 +33,18 @@ ENV PATH="${PATH}:/opt/butler/bin/"
 RUN butler -V
 
 # Download Godot and export templates
-# This version removes the ios, android and web templates because they are marked as experimental for Mono support or not functional at all
+# This version removes the ios, android  because they are marked as experimental for Mono support or not functional at all
 RUN wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}.zip \
     && wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
-    && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME} \
-    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
-    && mv Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM} /usr/local/bin/godot \
+    && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
+    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}.zip \
+    && mv Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM_FILE_NAME} /usr/local/bin/godot \
     && mv Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}/GodotSharp /usr/local/bin/GodotSharp \
-    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
     && rm templates/android* \
     && rm templates/ios* \
-    && rm templates/web* \
     && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
     && rm -f Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_PLATFORM}.zip
 
