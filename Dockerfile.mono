@@ -1,4 +1,5 @@
-FROM bitnami/minideb:bookworm
+FROM mono:slim
+
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
