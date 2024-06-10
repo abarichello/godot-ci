@@ -14,18 +14,19 @@ The variables are:
 
 - `GODOT_VERSION` - The Version of Godot without any suffix, like `4.2.2`
 - `RELEASE_TYPE` - `stable` for official releases, otherwise `beta3`, `dev6` and so on
-- `IMAGE_TYPE` - See the next section, most shoud use `minimal` as a start.
+- `IMAGE_TYPE` - See the next section, most should use `minimal` as a start.
 
 Example: You are using Godot 4.2.2 with GDscript only and want to use release to linux and windows, you use the following tag: `ghcr.io/meldanor/godot-ci:4.2.2-stable-minimal`
 
 ## Image type
 
-Each image has multiple tags more specific for a certain cause. Here is a matrix of the different combinations and their tags:
+The are three different types of the image, each for a specific use case:
 
-|            | Linux, windows, mac, web      | Android + iOS    |
-| ---------- | ----------------------------- | ---------------- |
-| Without C# | minimal                       | android-ios      |
-| With C#    | minimal-mono (not yet there)  | android-ios-mono (not yet there) |
+- `minimal` - GDscript only version for any plattform except android and iOS.
+- `andriod_ios` - GDscript only version for android and iOS. (Not tested with a real project, can have bugs)
+- `dotnet` - C# with .Net SDK 8 for plattforms except android, iOS and web (Not tested with a real project, can have bugs)
+
+The reasons are totally opinionated. The main reason is image size. Android and iOS needs more tools, dotnet uses a different base image. A smaller size is always preferred.
 
 ## Godot Versions
 
@@ -43,27 +44,7 @@ In the directory `templates/.github/workflows` are three templates for building 
 
 Each template has comments and provides only the build process, but not the upload / deploy / release step! You have to define this yourself. For convenience the image includes `cURL`, `rsync` and `bulter` (for itch.io).
 
-## Mono/C#
-
-TODO: At the moment not there because I have no experience with it. I will add this later again.
-
-## Android & IOS
-
-TODO: At the moment they are build but I have no idea how to test these builds as I have no test environment or use case.
-
-### GDNative/C++
-
-See [this repository](https://github.com/2shady4u/godot-cpp-ci) for automating GDNative C++ compilation, which is based off this repository.
-
-### Modules
-
-You have to compile Godot with the modules included first. See [this excellent repository](https://gitlab.com/Calinou/godot-builds-ci) by Calinou for automating Godot builds.
-
-After that, you would use the custom build to export your project as usual. See [this guide](https://gitlab.com/greenfox/godot-build-automation/-/blob/master/advanced_topics.md#using-a-custom-build-of-godot) by Greenfox on how to use a custom Godot build for automated exports.
-
 ## Troubleshoot
-
-#### Problems while exporting
 
 - **Check that the export presets file (`export_presets.cfg`) is committed to version control.** In other words, `export_presets.cfg` must _not_ be in `.gitignore`.
   - Make sure you don't accidentally commit Android release keystore or Windows codesigning credentials. These credentials cannot be revoked if they are leaked!
