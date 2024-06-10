@@ -23,6 +23,7 @@ jobs:
           [
             { tag: minimal, file: Dockerfile.minimal },
             { tag: andriod-ios, file: Dockerfile.android_ios },
+            { tag: mono, file: Dockerfile.mono },
           ]
 
     name: Build Image
