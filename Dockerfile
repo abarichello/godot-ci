@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     adb \
     openjdk-17-jdk-headless \
     rsync \
+    wine64 \
+    osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
 ARG GODOT_VERSION="4.2.1"
@@ -62,3 +64,7 @@ RUN echo 'export/android/debug_keystore_pass = "android"' >> ~/.config/godot/edi
 RUN echo 'export/android/force_system_user = false' >> ~/.config/godot/editor_settings-4.tres
 RUN echo 'export/android/timestamping_authority_url = ""' >> ~/.config/godot/editor_settings-4.tres
 RUN echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-4.tres
+
+RUN wget https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -O /opt/rcedit.exe
+RUN echo 'export/windows/rcedit = "/opt/rcedit.exe"' >> ~/.config/godot/editor_settings-4.tres
+RUN echo 'export/windows/wine = "/usr/bin/wine64-stable"' >> ~/.config/godot/editor_settings-4.tres
