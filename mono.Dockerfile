@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     rsync \
+    wine64 \
+    osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
 # When in doubt see the downloads page
@@ -48,3 +50,7 @@ RUN bash /opt/butler/getbutler.sh
 RUN /opt/butler/bin/butler -V
 
 ENV PATH="/opt/butler/bin:${PATH}"
+
+RUN wget https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -O /opt/rcedit.exe
+RUN echo 'export/windows/rcedit = "/opt/rcedit.exe"' >> ~/.config/godot/editor_settings-4.tres
+RUN echo 'export/windows/wine = "/usr/bin/wine64-stable"' >> ~/.config/godot/editor_settings-4.tres
