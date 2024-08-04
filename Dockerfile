@@ -22,20 +22,20 @@ ARG GODOT_TEST_ARGS=""
 ARG GODOT_PLATFORM="linux_server.64"
 
 ARG EXPORT_TEMPLATES_FILE="Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
-ARG GODOT_SERVER="Godot_v${GODOT_VERSION}stable_linux_headless.64"
+ARG GODOT_SERVER="Godot_v${GODOT_VERSION}-stable_linux_headless.64"
 ARG GODOT_SERVER_ZIP="${GODOT_SERVER}.zip"
 
-RUN wget https://github.com/godotengine/godot/releases/download/{GODOT_VERSION}-stable/{GODOT_SERVER_ZIP} \
-    && wget https://github.com/godotengine/godot/releases/download/{GODOT_VERSION}-stable/{EXPORT_TEMPLATES_FILE} \
+RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_SERVER_ZIP} \
+    && wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${EXPORT_TEMPLATES_FILE} \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
     && ln -s ~/.local/share/godot/templates ~/.local/share/godot/export_templates \
-    && unzip {GODOT_SERVER_ZIP} \
-    && mv {GODOT_SERVER} /usr/local/bin/godot \
-    && unzip {EXPORT_TEMPLATES_FILE} \
+    && unzip ${GODOT_SERVER_ZIP} \
+    && mv ${GODOT_SERVER} /usr/local/bin/godot \
+    && unzip ${EXPORT_TEMPLATES_FILE} \
     && mv templates/* ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
-    && rm -f {EXPORT_TEMPLATES_FILE} {GODOT_SERVER_ZIP}
+    && rm -f ${EXPORT_TEMPLATES_FILE} ${GODOT_SERVER_ZIP}
 
 ADD getbutler.sh /opt/butler/getbutler.sh
 RUN bash /opt/butler/getbutler.sh
