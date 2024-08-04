@@ -18,21 +18,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-
-ARG GODOT_VERSION="3.4.2"
+ARG GODOT_VERSION="3.5.3"
 ARG RELEASE_NAME="stable"
 ARG SUBDIR=""
+ARG GODOT_TEST_ARGS=""
+ARG GODOT_PLATFORM="linux_headless.64"
 
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip \
-    && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+ARG EXPORT_TEMPLATES_FILE="Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+ARG GODOT_SERVER="Godot_v${GODOT_VERSION}-stable_${GODOT_PLATFORM}"
+ARG GODOT_SERVER_ZIP="${GODOT_SERVER}.zip"
+
+RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_SERVER_ZIP} \
+    && wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${EXPORT_TEMPLATES_FILE} \
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
-    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip \
-    && mv Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64 /usr/local/bin/godot \
-    && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
+    && ln -s ~/.local/share/godot/templates ~/.local/share/godot/export_templates \
+    && unzip ${GODOT_SERVER_ZIP} \
+    && mv ${GODOT_SERVER} /usr/local/bin/godot \
+    && unzip ${EXPORT_TEMPLATES_FILE} \
     && mv templates/* ~/.local/share/godot/templates/${GODOT_VERSION}.${RELEASE_NAME} \
-    && rm -f Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz Godot_v${GODOT_VERSION}-${RELEASE_NAME}_linux_headless.64.zip
+    && rm -f ${EXPORT_TEMPLATES_FILE} ${GODOT_SERVER_ZIP}
 
 ADD getbutler.sh /opt/butler/getbutler.sh
 RUN bash /opt/butler/getbutler.sh
@@ -56,7 +62,7 @@ RUN yes | sdkmanager --licenses \
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 \
     && mv debug.keystore /root/debug.keystore
 
-RUN godot -e -q
+RUN godot -e -q ${GODOT_TEST_ARGS}
 RUN echo 'export/android/android_sdk_path = "/usr/lib/android-sdk"' >> ~/.config/godot/editor_settings-3.tres
 RUN echo 'export/android/debug_keystore = "/root/debug.keystore"' >> ~/.config/godot/editor_settings-3.tres
 RUN echo 'export/android/debug_keystore_user = "androiddebugkey"' >> ~/.config/godot/editor_settings-3.tres
