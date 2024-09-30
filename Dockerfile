@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
-ARG GODOT_VERSION="3.4.2"
+ARG GODOT_VERSION="3.6"
 ARG RELEASE_NAME="stable"
 ARG SUBDIR=""
 
