@@ -3,7 +3,7 @@ on:
  workflow_dispatch:
     inputs:
       version:
-        description: 'Version of engine to build e.g. "3.4.4", "3.5"'     
+        description: 'Version of engine to build e.g. "3.5", "3.6"'     
         required: true
         type: string
       release_name:
