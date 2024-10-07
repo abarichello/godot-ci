@@ -24,14 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-      - name: Login to GitHub Container Registry 
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v1.14.1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -58,14 +58,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-      - name: Login to GitHub Container Registry 
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v1.14.1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -85,4 +85,3 @@ jobs:
             RELEASE_NAME=${{ needs.version.outputs.release_name }}
             ZIP_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless_64' || 'linux_x86_64' }}
             FILENAME_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
-            
