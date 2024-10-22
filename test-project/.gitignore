@@ -308,5 +308,5 @@ platform/windows/godot_res.res
 # Scons progress indicator
 .scons_node_count
 
-# Godot 4.3
+# Godot 4.x
 .godot/
