@@ -1,6 +1,6 @@
 extends "res://scripts/ColoredEntity.gd"
 
-onready var Bullet: PackedScene = preload("res://scenes/Projectile.tscn")
+@onready var Bullet: PackedScene = preload("res://scenes/Projectile.tscn")
 const RATE_OF_CHANGE: float = 0.9
 const UPPER_LIMIT: int = -89
 const LOWER_LIMIT: int = -5
@@ -11,8 +11,8 @@ func _ready():
 	self.highlight()
 
 func _process(delta):
-	$Sprite.set_rotation(deg2rad(self.angle))
-	$Sprite.rect_size.y = 24
+	$Sprite2D.set_rotation(deg_to_rad(self.angle))
+	$Sprite2D.size.y = 24
 
 func _input(event):
 	if Input.is_action_pressed("ui_up"):
@@ -30,10 +30,10 @@ func move_down() -> void:
 
 func shoot() -> void:
 	if $FireCooldown.time_left == 0:
-		var NewBullet = Bullet.instance()
-		NewBullet.global_position = $Sprite/CannonTip.global_position
+		var NewBullet = Bullet.instantiate()
+		NewBullet.global_position = $Sprite2D/CannonTip.global_position
 		NewBullet.rotation_degrees = self.angle
-		var at: Vector2 = $Sprite/CannonTip.global_position - $Sprite/CannonBase.global_position
+		var at: Vector2 = $Sprite2D/CannonTip.global_position - $Sprite2D/CannonBase.global_position
 		NewBullet.shoot(at)
 
 		var BulletSprite = NewBullet.get_node("Mask")
@@ -42,7 +42,7 @@ func shoot() -> void:
 		else:
 			BulletSprite.lowlight()
 
-		NewBullet.setup(GLOBAL.BULLET, GLOBAL.BULLET_SPEED)
+		NewBullet.setup(GLOBAL.SpriteType.BULLET, GLOBAL.BULLET_SPEED)
 		NewBullet.update_collision_layer()
 		$Projectiles.add_child(NewBullet)
 		$FireCooldown.start()

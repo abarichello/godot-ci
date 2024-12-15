@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/ColoredEntity.gd" type="Script" id=1]
-[ext_resource path="res://resources/img/2.png" type="Texture" id=2]
+[ext_resource path="res://resources/img/2.png" type="Texture2D" id=2]
 
 [node name="Background" type="Node2D" groups=[
 "ColoredEntity",
@@ -13,12 +13,12 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -199.0
-margin_top = -157.0
-margin_right = 2097.0
-margin_bottom = 1217.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
+offset_left = -199.0
+offset_top = -157.0
+offset_right = 2097.0
+offset_bottom = 1217.0
+pivot_offset = Vector2( 0, 0 )
+clip_contents = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
