@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # When in doubt, see the downloads page: https://downloads.tuxfamily.org/godotengine/
-ARG GODOT_VERSION="4.3"
+ARG GODOT_VERSION="4.4"
 
 # Example values: stable, beta3, rc1, dev2, etc.
 # Also change the `SUBDIR` argument below when NOT using stable.
