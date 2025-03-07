@@ -1,4 +1,5 @@
-FROM mono:latest
+ARG IMAGE="mcr.microsoft.com/dotnet/sdk:8.0-jammy"
+FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
@@ -8,8 +9,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
     git-lfs \
-    python \
-    python-openssl \
     unzip \
     wget \
     zip \
@@ -41,7 +40,7 @@ ARG GODOT_ZIP_PLATFORM="linux_x86_64"
 
 RUN wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \
     && wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
-    && mkdir ~/.cache \
+    && mkdir -p ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
     && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \

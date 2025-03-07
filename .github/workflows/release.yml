@@ -7,19 +7,32 @@ env:
 jobs:
   version:
     name: Get Version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.calculate.outputs.version }}
       release_name: ${{ steps.calculate.outputs.release_name }}
+      dotnet_version: ${{ steps.calculate.outputs.dotnet_version }}
     steps:
       - id: calculate
         run: |
           REF_NAME=${{ github.ref_name }}
           echo "version=${REF_NAME%-*}" >> $GITHUB_OUTPUT
           echo "release_name=${REF_NAME#*-}" >> $GITHUB_OUTPUT
+          MAJOR_VERSION=$(echo ${REF_NAME%-*} | cut -c -1)
+          MINOR_VERSION=$(echo ${REF_NAME%-*} | cut -c -3)
+          if [ "$MAJOR_VERSION" = "3" ]
+          then
+              echo "dotnet_version=mono:latest" >> $GITHUB_OUTPUT
+          elif [ "$MINOR_VERSION" = "4.0" ] || [ "$MINOR_VERSION" = "4.1" ] || [ "$MINOR_VERSION" = "4.2" ] || [ "$MINOR_VERSION" = "4.3" ]
+          then
+              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:6.0-jammy" >> $GITHUB_OUTPUT
+          else
+              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:8.0-jammy" >> $GITHUB_OUTPUT
+          fi       
+          
   build:
     name: Build Image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [version]
     steps:
       - uses: actions/checkout@v3
@@ -53,7 +66,7 @@ jobs:
             GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
   build-mono:
     name: Build Mono Image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [version]
     steps:
       - uses: actions/checkout@v3
@@ -81,6 +94,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ needs.version.outputs.version }}
           build-args: |
+            IMAGE=${{ needs.version.outputs.dotnet_version }}
             GODOT_VERSION=${{ needs.version.outputs.version }}
             RELEASE_NAME=${{ needs.version.outputs.release_name }}
             ZIP_GODOT_PLATFORM=${{ startsWith( needs.version.outputs.version, '3.' ) && 'linux_headless_64' || 'linux_x86_64' }}
