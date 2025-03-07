@@ -1,4 +1,4 @@
-ARG IMAGE="mono:latest"
+ARG IMAGE="mcr.microsoft.com/dotnet/sdk:8.0-jammy"
 FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
