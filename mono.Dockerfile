@@ -40,7 +40,7 @@ ARG GODOT_ZIP_PLATFORM="linux_x86_64"
 
 RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \
     && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
-    && mkdir ~/.cache \
+    && mkdir -p ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
     && unzip Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \
