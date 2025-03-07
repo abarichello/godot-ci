@@ -16,7 +16,7 @@ env:
 jobs:
   version:
     name: Get Version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       dotnet_version: ${{ steps.calculate.outputs.dotnet_version }}
     steps:
@@ -36,7 +36,7 @@ jobs:
 
   build:
     name: Build Image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - run:  echo IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
@@ -69,7 +69,7 @@ jobs:
             GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
   build-mono:
     name: Build Mono Image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [version]
     steps:
       - uses: actions/checkout@v3
