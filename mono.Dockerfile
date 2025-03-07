@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
-# When in doubt, see the downloads page: https://downloads.tuxfamily.org/godotengine/
-ARG GODOT_VERSION="4.3"
+# When in doubt, see the downloads page: https://github.com/godotengine/godot-builds/releases/
+ARG GODOT_VERSION="4.4"
 
 # Example values: stable, beta3, rc1, dev2, etc.
 # Also change the `SUBDIR` argument below when NOT using stable.
@@ -38,8 +38,8 @@ ARG GODOT_PLATFORM="linux.x86_64"
 # and folder name within the ZIP, but not in the binary file name within the ZIP.
 ARG GODOT_ZIP_PLATFORM="linux_x86_64"
 
-RUN wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \
-    && wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
+RUN wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_${GODOT_ZIP_PLATFORM}.zip \
+    && wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-${RELEASE_NAME}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_mono_export_templates.tpz \
     && mkdir -p ~/.cache \
     && mkdir -p ~/.config/godot \
     && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
