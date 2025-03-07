@@ -1,4 +1,4 @@
-FROM mono:latest
+FROM ubuntu:24.04
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
@@ -8,8 +8,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
     git-lfs \
-    python \
-    python-openssl \
+    python3 \
+    python3-openssl \
+    python-is-python3 \
+    dotnet-sdk-8.0 \
     unzip \
     wget \
     zip \
