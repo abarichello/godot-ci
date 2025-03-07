@@ -17,12 +17,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -60.5
-margin_top = -33.0
-margin_right = 60.5
-margin_bottom = 33.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
+offset_left = -60.5
+offset_top = -33.0
+offset_right = 60.5
+offset_bottom = 33.0
+pivot_offset = Vector2( 0, 0 )
+clip_contents = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
@@ -31,7 +31,7 @@ color = Color( 1, 1, 1, 1 )
 
 [node name="Body" type="Area2D" parent="."]
 input_pickable = true
-gravity_vec = Vector2( 0, 1 )
+gravity_direction = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
