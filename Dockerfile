@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
-# When in doubt, see the downloads page: https://downloads.tuxfamily.org/godotengine/
+# When in doubt, see the downloads page: https://github.com/godotengine/godot-builds/releases/
 ARG GODOT_VERSION="4.4"
 
 # Example values: stable, beta3, rc1, dev2, etc.
