@@ -1,19 +1,37 @@
 name: "godot-ci export"
 on: push
 
-# NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
 env:
   GODOT_VERSION: 4.3
-  EXPORT_NAME: test-project
-  PROJECT_PATH: test-project
+  # The export name may include spaces, but only use special characters sparingly as these will be used within a file name.
+  EXPORT_NAME: "test-project"
+  # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
+  PROJECT_PATH: "test-project"
 
 jobs:
-  export-windows:
-    name: Windows Export
-    runs-on: ubuntu-22.04  # Use 22.04 with godot 4
+  builds:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - name: Linux
+          export_template: "Linux/X11"
+          ext: "x86_64"
+        - name: Windows
+          export_template: "Windows Desktop"
+          ext: "exe"
+        - name: macOS
+          export_template: "macOS"
+          ext: "zip"
+        - name: Android
+          export_template: "Android"
+          ext: "apk"
+    runs-on: ubuntu-22.04
+    permissions: write-all
     container:
       image: barichello/godot-ci:4.3
+    name: Export ${{ matrix.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,46 +43,36 @@ jobs:
           mkdir -v -p ~/.config/
           mv /root/.config/godot ~/.config/godot
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Windows Build
+        # For Android exports, you may want to store your keystore as a secret, or Android will give you errors when trying to update the app
+        # with this artifact, as the keystore is being regenerated each time the container is launched. Run
+        # the commands described in the "Android" section of README.md on your local machine and put the base64-encoded keystore into a secret.
+        # Then, uncomment the lines below:
+        #  echo "$KEYSTORE" | base64 -d > /root/debug.keystore
+        #env:
+        #  KEYSTORE: ${{ secrets.SECRET_KEYSTORE_BASE64 }}
+      - name: ${{ matrix.name }} Build
         run: |
-          mkdir -v -p build/windows
+          mkdir -v -p "build/${{ matrix.name }}"
           EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      - name: Upload Artifact
+          cd "$PROJECT_PATH"
+          godot --headless --verbose --export-release "${{ matrix.export_template }}" "${EXPORT_DIR}/${{ matrix.name }}/${EXPORT_NAME}.${{ matrix.ext }}"
+        env:
+          # NOTE: The values below are default values. They are not secret.
+          # Leave them as is unless you customized them, they are needed for `--export-release` above.
+          GODOT_ANDROID_KEYSTORE_RELEASE_PATH: "/root/debug.keystore"
+          GODOT_ANDROID_KEYSTORE_RELEASE_USER: "androiddebugkey"
+          GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD: "android"
+          # Uncomment if you modified your keystore.
+          #GODOT_ANDROID_KEYSTORE_DEBUG_USER: ${{ secrets.SECRET_KEYSTORE_USER }}
+          #GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: ${{ secrets.SECRET_KEYSTORE_PASSWORD }}
+      - name: Upload Artifact - ${{ matrix.name }}
         uses: actions/upload-artifact@v4
         with:
-          name: windows
-          path: build/windows
-
-  export-linux:
-    name: Linux Export
-    runs-on: ubuntu-22.04  # Use 22.04 with godot 4
-    container:
-      image: barichello/godot-ci:4.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Linux Build
-        run: |
-          mkdir -v -p build/linux
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux
-          path: build/linux
+          name: ${{ matrix.name }}
+          path: build/${{ matrix.name }}
 
   export-web:
-    name: Web Export
+    name: Export Web
     runs-on: ubuntu-22.04  # Use 22.04 with godot 4
     container:
       image: barichello/godot-ci:4.3
@@ -96,29 +104,3 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build/web # The folder the action should deploy.
-
-  export-mac:
-    name: Mac Export
-    runs-on: ubuntu-22.04  # Use 22.04 with godot 4
-    container:
-      image: barichello/godot-ci:4.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Mac Build
-        run: |
-          mkdir -v -p build/mac
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-release "macOS" "$EXPORT_DIR/mac/$EXPORT_NAME.zip"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac
-          path: build/mac
