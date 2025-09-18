@@ -20,7 +20,7 @@ env:
 jobs:
   version:
     name: Get Version
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       dotnet_version: ${{ steps.calculate.outputs.dotnet_version }}
     steps:
@@ -39,7 +39,7 @@ jobs:
           fi       
   get_tags:
     name: Get Tags
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       tags: ${{steps.write_tags.outputs.tags}}
       tags_mono: ${{steps.write_tags_mono.outputs.tags}}
@@ -76,7 +76,7 @@ jobs:
             retention-days: 1
   build:
     name: Build Image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: get_tags
     steps:
       - uses: actions/download-artifact@v4
@@ -115,7 +115,7 @@ jobs:
             GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
   build-mono:
     name: Build Mono Image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [version, get_tags]
     steps:
       - uses: actions/download-artifact@v4

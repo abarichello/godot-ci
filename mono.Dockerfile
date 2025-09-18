@@ -1,4 +1,4 @@
-ARG IMAGE="mcr.microsoft.com/dotnet/sdk:8.0-jammy"
+ARG IMAGE="mcr.microsoft.com/dotnet/sdk:9.0-noble"
 FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
@@ -15,12 +15,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-17-jdk-headless \
     adb \
     rsync \
-    wine64 \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
 # When in doubt, see the downloads page: https://github.com/godotengine/godot-builds/releases/
-ARG GODOT_VERSION="4.4"
+ARG GODOT_VERSION="4.5"
 
 # Example values: stable, beta3, rc1, dev2, etc.
 # Also change the `SUBDIR` argument below when NOT using stable.
@@ -85,8 +84,3 @@ RUN echo 'export/android/debug_keystore_pass = "android"' >> ~/.config/godot/edi
 RUN echo 'export/android/force_system_user = false' >> ~/.config/godot/editor_settings-${GODOT_VERSION:0:3}.tres
 RUN echo 'export/android/timestamping_authority_url = ""' >> ~/.config/godot/editor_settings-${GODOT_VERSION:0:3}.tres
 RUN echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-${GODOT_VERSION:0:3}.tres
-
-# Download and set up rcedit to change Windows executable icons on export.
-RUN wget https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -O /opt/rcedit.exe
-RUN echo 'export/windows/rcedit = "/opt/rcedit.exe"' >> ~/.config/godot/editor_settings-${GODOT_VERSION:0:3}.tres
-RUN echo 'export/windows/wine = "/usr/bin/wine64-stable"' >> ~/.config/godot/editor_settings-${GODOT_VERSION:0:3}.tres
