@@ -106,7 +106,3 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 
 #### Authentication errors with Butler
 - If using GitLab, check that the 'protected' tag is disabled in the [CI/CD variables panel](https://github.com/aBARICHELLO/godot-ci#environment-configuration).
-
-## Additional Resources
-
-Greenfox has an [excellent repo](https://gitlab.com/greenfox/godot-build-automation) that is also for automating Godot exports.
