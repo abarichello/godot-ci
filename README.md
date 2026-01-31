@@ -62,7 +62,7 @@ Here's a mapping between each supported CI service, the template jobs and a live
 
 |CI|Template|Example
 |-|-|-|
-|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L16-L58) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L60-L76) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L78-L91) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L93-L113)|[GitLab CI Pipelines](https://gitlab.com/BARICHELLO/godot-ci/pipelines)
+|GitLab CI|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L16-L58) / [GitHub Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L60-L76) / [GitLab Pages](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L78-L91) / [Itch.io](https://github.com/aBARICHELLO/godot-ci/blob/master/.gitlab-ci.yml#L147-L167)|[GitLab CI Pipelines](https://gitlab.com/BARICHELLO/godot-ci/pipelines)
 |GitHub Actions|[Godot Exports](https://github.com/aBARICHELLO/godot-ci/blob/master/.github/workflows/godot-ci.yml#L8-99) | [GitHub Actions running](https://github.com/aBARICHELLO/godot-ci/actions)
 
 ## Environment configuration
@@ -106,7 +106,3 @@ Secrets needed for a Itch.io deploy via GitLab CI:
 
 #### Authentication errors with Butler
 - If using GitLab, check that the 'protected' tag is disabled in the [CI/CD variables panel](https://github.com/aBARICHELLO/godot-ci#environment-configuration).
-
-## Additional Resources
-
-Greenfox has an [excellent repo](https://gitlab.com/greenfox/godot-build-automation) that is also for automating Godot exports.
