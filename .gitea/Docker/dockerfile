@@ -1,4 +1,4 @@
-FROM node:trixie
+FROM node:20-bullseye
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
 USER root
