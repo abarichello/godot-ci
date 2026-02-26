@@ -24,22 +24,12 @@ jobs:
     outputs:
       dotnet_version: ${{ steps.calculate.outputs.dotnet_version }}
     steps:
+      - uses: actions/checkout@v3
       - id: calculate
         run: |
-          MAJOR_VERSION=$(echo ${{ github.event.inputs.version }} | cut -c -1)
-          MINOR_VERSION=$(echo ${{ github.event.inputs.version }} | cut -c -3)
-          if [ "$MAJOR_VERSION" = "3" ]
-          then
-              echo "dotnet_version=mono:latest" >> $GITHUB_OUTPUT
-          elif [ "$MINOR_VERSION" = "4.0" ] || [ "$MINOR_VERSION" = "4.1" ] || [ "$MINOR_VERSION" = "4.2" ] || [ "$MINOR_VERSION" = "4.3" ]
-          then
-              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:6.0-jammy" >> $GITHUB_OUTPUT
-          elif [ "$MINOR_VERSION" = "4.4" ]
-          then
-              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:8.0-jammy" >> $GITHUB_OUTPUT
-          else
-              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:9.0-noble" >> $GITHUB_OUTPUT
-          fi
+          DOTNET_VERSION=$(./get_dotnet_version.sh ${{ github.event.inputs.version }})
+          echo "dotnet_version=$DOTNET_VERSION" >> $GITHUB_OUTPUT
+          echo "$DOTNET_VERSION"
   get_tags:
     name: Get Tags
     runs-on: ubuntu-24.04

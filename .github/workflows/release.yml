@@ -13,22 +13,16 @@ jobs:
       release_name: ${{ steps.calculate.outputs.release_name }}
       dotnet_version: ${{ steps.calculate.outputs.dotnet_version }}
     steps:
+      - uses: actions/checkout@v3
       - id: calculate
         run: |
           REF_NAME=${{ github.ref_name }}
-          echo "version=${REF_NAME%-*}" >> $GITHUB_OUTPUT
+          VERSION=${REF_NAME%-*}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "release_name=${REF_NAME#*-}" >> $GITHUB_OUTPUT
-          MAJOR_VERSION=$(echo ${REF_NAME%-*} | cut -c -1)
-          MINOR_VERSION=$(echo ${REF_NAME%-*} | cut -c -3)
-          if [ "$MAJOR_VERSION" = "3" ]
-          then
-              echo "dotnet_version=mono:latest" >> $GITHUB_OUTPUT
-          elif [ "$MINOR_VERSION" = "4.0" ] || [ "$MINOR_VERSION" = "4.1" ] || [ "$MINOR_VERSION" = "4.2" ] || [ "$MINOR_VERSION" = "4.3" ]
-          then
-              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:6.0-jammy" >> $GITHUB_OUTPUT
-          else
-              echo "dotnet_version=mcr.microsoft.com/dotnet/sdk:8.0-jammy" >> $GITHUB_OUTPUT
-          fi       
+          DOTNET_VERSION=$(./get_dotnet_version.sh $VERSION)
+          echo "dotnet_version=$DOTNET_VERSION" >> $GITHUB_OUTPUT
+          echo "$DOTNET_VERSION"
           
   build:
     name: Build Image
