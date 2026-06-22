@@ -17,7 +17,7 @@ case "$MINOR_VERSION" in
     "4.4")
         echo "mcr.microsoft.com/dotnet/sdk:8.0-jammy"
         ;;
-    "4.5" | "4.6")
+    "4.5" | "4.6" | "4.7")
         echo "mcr.microsoft.com/dotnet/sdk:9.0-noble"
         ;;
     *)
