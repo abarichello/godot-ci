@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rsync \
     nodejs \
     osslsigncode \
+    zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # When in doubt, see the downloads page: https://github.com/godotengine/godot-builds/releases/
